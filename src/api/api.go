@@ -13,8 +13,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-var logger = logging.NewLogger(config.GetConfig())
-
 func InitServer(cfg *config.Config) {
 	gin.SetMode(cfg.Server.RunMode)
 	r := gin.New()
@@ -64,8 +62,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 func RegisterSwagger(r *gin.Engine, cfg *config.Config) {
 	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.ExternalPort)
-	docs.SwaggerInfo.Title = "mirsahib"
-	docs.SwaggerInfo.Description = "Openstack Web Client"
+	docs.SwaggerInfo.Title = "Openstack Web Client"
+	docs.SwaggerInfo.Description = "This client provides interacting by openstack through `gophercloud`"
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
