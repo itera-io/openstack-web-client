@@ -14,7 +14,7 @@ func NewUserService() *UserService {
 }
 
 // Validate user
-func (s *UserService) AuthenticateUser(req *dto.AuthenticateUserRequest) (bool, error) {
+func (s *UserService) ValidateUser(req *dto.ValidateUserRequest) (bool, error) {
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: req.Url,
 		Username:         req.Username,

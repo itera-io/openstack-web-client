@@ -18,26 +18,26 @@ func NewUsersHandler() *UsersHandler {
 	return &UsersHandler{service: service}
 }
 
-// AuthenticateUser godoc
-// @Summary AuthenticateUser
-// @Description AuthenticateUser
+// ValidateUser godoc
+// @Summary Validate User
+// @Description Validate User
 // @Tags Users
 // @Accept  json
 // @Produce  json
-// @Param Request body dto.AuthenticateUserRequest true "AuthenticateUserRequest"
+// @Param Request body dto.ValidateUserRequest true "ValidateUserRequest"
 // @Success 201 {object} helper.BaseHttpResponse "Success"
 // @Failure 400 {object} helper.BaseHttpResponse "Failed"
 // @Failure 409 {object} helper.BaseHttpResponse "Failed"
-// @Router /v1/users/authenticate [post]
-func (h *UsersHandler) AuthenticateUser(c *gin.Context) {
-	req := new(dto.AuthenticateUserRequest)
+// @Router /v1/users/validate [post]
+func (h *UsersHandler) ValidateUser(c *gin.Context) {
+	req := new(dto.ValidateUserRequest)
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest,
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
 		return
 	}
-	authenticated, err := h.service.AuthenticateUser(req)
+	authenticated, err := h.service.ValidateUser(req)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))

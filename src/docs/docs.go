@@ -44,9 +44,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/users/authenticate": {
+        "/v1/users/validate": {
             "post": {
-                "description": "AuthenticateUser",
+                "description": "Validate User",
                 "consumes": [
                     "application/json"
                 ],
@@ -56,15 +56,15 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "AuthenticateUser",
+                "summary": "Validate User",
                 "parameters": [
                     {
-                        "description": "AuthenticateUserRequest",
+                        "description": "ValidateUserRequest",
                         "name": "Request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest"
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest"
                         }
                     }
                 ],
@@ -92,7 +92,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
+        "github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest": {
             "type": "object",
             "required": [
                 "password",
@@ -111,8 +111,7 @@ const docTemplate = `{
                     "minLength": 6
                 },
                 "url": {
-                    "type": "string",
-                    "minLength": 6
+                    "type": "string"
                 },
                 "username": {
                     "type": "string",

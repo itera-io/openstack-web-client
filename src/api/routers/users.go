@@ -8,5 +8,5 @@ import (
 func User(router *gin.RouterGroup) {
 	h := handlers.NewUsersHandler()
 
-	router.POST("/auth", h.AuthenticateUser)
+	router.POST("/validate", h.ValidateUser)
 }

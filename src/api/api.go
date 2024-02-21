@@ -64,6 +64,6 @@ func RegisterSwagger(r *gin.Engine, cfg *config.Config) {
 	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.ExternalPort)
 	docs.SwaggerInfo.Title = "Openstack Web Client"
 	docs.SwaggerInfo.Description = "This client provides interacting by openstack through `gophercloud`"
-
+	docs.SwaggerInfo.BasePath = "/api"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
