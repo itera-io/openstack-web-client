@@ -60,6 +60,11 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		health := v2.Group("/health")
 		routers.Health(health)
 	}
+	v3 := api.Group("/v3")
+	{
+		region := v3.Group("/regions", middlewares.Authentication(cfg))
+		routers.Region(region)
+	}
 }
 
 func RegisterSwagger(r *gin.Engine, cfg *config.Config) {

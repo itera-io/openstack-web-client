@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/itera-io/openstack-web-client/api/helper"
@@ -14,10 +13,13 @@ import (
 func Authentication(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
-		auth := c.GetHeader(constants.AuthorizationHeaderKey)
-		token := strings.Split(auth, " ")
-		if auth == "" || token[1] == "" {
+		token := c.GetHeader(constants.TokenKey)
+		if token == "" {
 			err = &service_errors.ServiceError{EndUserMessage: service_errors.TokenRequired}
+		}
+		url := c.GetHeader(constants.BaseUrlKey)
+		if url == "" {
+			err = &service_errors.ServiceError{EndUserMessage: service_errors.BaseUrlRequired}
 		}
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, helper.GenerateBaseResponseWithError(
@@ -25,6 +27,8 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 			))
 			return
 		}
+		c.Set(constants.TokenKey, token)
+		c.Set(constants.BaseUrlKey, url)
 		c.Next()
 	}
 }

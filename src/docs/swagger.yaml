@@ -18,6 +18,22 @@ definitions:
     - url
     - username
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListRegionResponse:
+    properties:
+      regions:
+        items:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.RegionItem'
+        type: array
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.RegionItem:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest:
     properties:
       applicationCredEnabled:
@@ -165,4 +181,41 @@ paths:
       summary: Validate User
       tags:
       - Users
+  /v3/regions:
+    get:
+      consumes:
+      - application/json
+      description: List Region
+      parameters:
+      - description: ListRegionRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListRegion response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Region
+      tags:
+      - Regions
 swagger: "2.0"

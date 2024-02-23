@@ -20,4 +20,6 @@ const (
 
 	// DB
 	RecordNotFound = "record not found"
+
+	BaseUrlRequired = "base url required"
 )
