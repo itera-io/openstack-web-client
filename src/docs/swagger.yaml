@@ -1,4 +1,23 @@
 definitions:
+  github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
+    properties:
+      applicationCredEnabled:
+        type: boolean
+      domain:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      url:
+        type: string
+      username:
+        minLength: 3
+        type: string
+    required:
+    - password
+    - url
+    - username
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest:
     properties:
       applicationCredEnabled:
@@ -86,6 +105,36 @@ paths:
       summary: Health Check
       tags:
       - health
+  /v1/users/auth:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate User
+      parameters:
+      - description: AuthenticateUserRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      summary: Authenticate User
+      tags:
+      - Users
   /v1/users/validate:
     post:
       consumes:

@@ -44,6 +44,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/users/auth": {
+            "post": {
+                "description": "Authenticate User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Authenticate User",
+                "parameters": [
+                    {
+                        "description": "AuthenticateUserRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/validate": {
             "post": {
                 "description": "Validate User",
@@ -92,6 +138,33 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "url",
+                "username"
+            ],
+            "properties": {
+                "applicationCredEnabled": {
+                    "type": "boolean"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "url": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "minLength": 3
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest": {
             "type": "object",
             "required": [

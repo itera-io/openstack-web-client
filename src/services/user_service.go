@@ -14,7 +14,7 @@ func NewUserService() *UserService {
 }
 
 // Validate user
-func (s *UserService) ValidateUser(req *dto.ValidateUserRequest) (bool, error) {
+func (s *UserService) Validate(req *dto.ValidateUserRequest) (bool, error) {
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: req.Url,
 		Username:         req.Username,
@@ -41,4 +41,23 @@ func (s *UserService) ValidateUser(req *dto.ValidateUserRequest) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// Authenticate user
+func (s *UserService) Authenticate(req *dto.AuthenticateUserRequest) (*dto.AuthenticateUserResponse, error) {
+	r := &dto.AuthenticateUserResponse{}
+	opts := gophercloud.AuthOptions{
+		IdentityEndpoint: req.Url,
+		Username:         req.Username,
+		Password:         req.Password,
+		DomainName:       req.Domain,
+		AllowReauth:      true,
+	}
+
+	provider, err := openstack.AuthenticatedClient(opts)
+	if err != nil {
+		return nil, err
+	}
+	r.Token = provider.TokenID
+	return r, nil
 }
