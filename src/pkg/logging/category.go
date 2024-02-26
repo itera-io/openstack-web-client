@@ -9,6 +9,7 @@ const (
 	IO              Category = "IO"
 	Internal        Category = "Internal"
 	RequestResponse Category = "RequestResponse"
+	IdentityClient  Category = "IdentityClient"
 )
 
 const (

@@ -5,12 +5,14 @@ import (
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/regions"
 	"github.com/itera-io/openstack-web-client/api/dto"
+	"github.com/itera-io/openstack-web-client/config"
+	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
-type RegionService struct{}
+type RegionService struct{ Logger logging.Logger }
 
-func NewRegionService() *RegionService {
-	return &RegionService{}
+func NewRegionService(cfg *config.Config) *RegionService {
+	return &RegionService{Logger: logging.NewLogger(cfg)}
 }
 
 func (s *RegionService) ListRegions(req *dto.ListRegionRequest, authUtils *dto.AuthUtils) (*dto.ListRegionResponse, error) {
@@ -26,6 +28,7 @@ func (s *RegionService) ListRegions(req *dto.ListRegionRequest, authUtils *dto.A
 	}
 	identityClient, err := openstack.NewIdentityV3(provider, gophercloud.EndpointOpts{})
 	if err != nil {
+		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
 	}
 	listOpts := regions.ListOpts{}
