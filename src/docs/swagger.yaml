@@ -18,6 +18,15 @@ definitions:
     - url
     - username
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse:
+    properties:
+      projects:
+        items:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.Project'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListRegionResponse:
@@ -26,6 +35,13 @@ definitions:
         items:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.RegionItem'
         type: array
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.Project:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
     type: object
   github_com_itera-io_openstack-web-client_api_dto.RegionItem:
     properties:
@@ -181,6 +197,43 @@ paths:
       summary: Validate User
       tags:
       - Users
+  /v3/Projects:
+    get:
+      consumes:
+      - application/json
+      description: List Project
+      parameters:
+      - description: ListProjectRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListProject response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Project
+      tags:
+      - Projects
   /v3/regions:
     get:
       consumes:

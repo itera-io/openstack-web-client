@@ -136,6 +136,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v3/Projects": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Project",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "List Project",
+                "parameters": [
+                    {
+                        "description": "ListProjectRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListProject response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/regions": {
             "get": {
                 "security": [
@@ -228,6 +291,20 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse": {
+            "type": "object",
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.Project"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest": {
             "type": "object"
         },
@@ -239,6 +316,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.RegionItem"
                     }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.Project": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

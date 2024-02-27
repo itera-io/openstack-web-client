@@ -63,7 +63,9 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	v3 := api.Group("/v3")
 	{
 		region := v3.Group("/regions", middlewares.Authentication(cfg))
+		project := v3.Group("/projects", middlewares.Authentication(cfg))
 		routers.Region(region, cfg)
+		routers.Project(project, cfg)
 	}
 }
 

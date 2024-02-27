@@ -3,7 +3,7 @@ package dto
 type ListRegionRequest struct{}
 
 type ListRegionResponse struct {
-	Regions []RegionItem
+	Regions []RegionItem `json:"regions"`
 }
 
 type RegionItem struct {
