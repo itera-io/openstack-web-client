@@ -1,8 +1,6 @@
 definitions:
   github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
     properties:
-      applicationCredEnabled:
-        type: boolean
       domain:
         type: string
       password:
@@ -36,6 +34,15 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.RegionItem'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse:
+    properties:
+      projects:
+        items:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.UserProject'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.Project:
     properties:
       id:
@@ -50,10 +57,15 @@ definitions:
       name:
         type: string
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.UserProject:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest:
     properties:
-      applicationCredEnabled:
-        type: boolean
       domain:
         type: string
       password:
@@ -271,4 +283,41 @@ paths:
       summary: List Region
       tags:
       - Regions
+  /v3/users/:id/projects:
+    get:
+      consumes:
+      - application/json
+      description: List UserProject
+      parameters:
+      - description: ListUserProjectRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListUserProject response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List UserProject
+      tags:
+      - UserProjects
 swagger: "2.0"

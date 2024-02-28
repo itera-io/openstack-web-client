@@ -261,6 +261,69 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v3/users/:id/projects": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List UserProject",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserProjects"
+                ],
+                "summary": "List UserProject",
+                "parameters": [
+                    {
+                        "description": "ListUserProjectRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListUserProject response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -272,9 +335,6 @@ const docTemplate = `{
                 "username"
             ],
             "properties": {
-                "applicationCredEnabled": {
-                    "type": "boolean"
-                },
                 "domain": {
                     "type": "string"
                 },
@@ -319,6 +379,20 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse": {
+            "type": "object",
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.UserProject"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.Project": {
             "type": "object",
             "properties": {
@@ -341,6 +415,17 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.UserProject": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest": {
             "type": "object",
             "required": [
@@ -349,9 +434,6 @@ const docTemplate = `{
                 "username"
             ],
             "properties": {
-                "applicationCredEnabled": {
-                    "type": "boolean"
-                },
                 "domain": {
                     "type": "string"
                 },

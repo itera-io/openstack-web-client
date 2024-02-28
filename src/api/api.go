@@ -50,7 +50,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.TestRouter(test_router)
 
 		// User
-		routers.User(users)
+		routers.User(users, cfg)
 
 		r.Static("/static", "./uploads")
 	}
@@ -63,9 +63,11 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	v3 := api.Group("/v3")
 	{
 		region := v3.Group("/regions", middlewares.Authentication(cfg))
+		user := v3.Group("/users", middlewares.Authentication(cfg))
 		project := v3.Group("/projects", middlewares.Authentication(cfg))
 		routers.Region(region, cfg)
 		routers.Project(project, cfg)
+		routers.AuthenticatedUser(user, cfg)
 	}
 }
 

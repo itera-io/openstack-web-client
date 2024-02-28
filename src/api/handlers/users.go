@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/itera-io/openstack-web-client/api/dto"
 	"github.com/itera-io/openstack-web-client/api/helper"
+	"github.com/itera-io/openstack-web-client/config"
+	"github.com/itera-io/openstack-web-client/constants"
 	"github.com/itera-io/openstack-web-client/services"
 )
 
@@ -13,8 +15,8 @@ type UsersHandler struct {
 	service *services.UserService
 }
 
-func NewUsersHandler() *UsersHandler {
-	service := services.NewUserService()
+func NewUsersHandler(cfg *config.Config) *UsersHandler {
+	service := services.NewUserService(cfg)
 	return &UsersHandler{service: service}
 }
 
@@ -80,4 +82,36 @@ func (h *UsersHandler) Authenticate(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(tDto, true, helper.Success))
+}
+
+// ListUserProject godoc
+// @Summary List UserProject
+// @Description List UserProject
+// @Tags UserProjects
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.ListUserProjectRequest true "ListUserProjectRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.ListUserProjectResponse} "ListUserProject response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v3/users/:id/projects [get]
+// @Security AuthBearer
+func (h *UsersHandler) ListUserProjects(c *gin.Context) {
+	id := c.Params.ByName("id")
+	if id == "" {
+		c.AbortWithStatusJSON(http.StatusNotFound,
+			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+		return
+	}
+	var t, _ = c.Get(constants.TokenKey)
+	var u, _ = c.Get(constants.BaseUrlKey)
+	authUtils := &dto.AuthUtils{Token: t.(string), BaseUrl: u.(string)}
+	res, err := h.service.ListUserProjects(id, authUtils)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
+		return
+	}
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, helper.Success))
 }
