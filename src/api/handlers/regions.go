@@ -41,7 +41,7 @@ func (h *RegionsHandler) ListRegions(c *gin.Context) {
 	// 	return
 	// }
 	var t, _ = c.Get(constants.TokenKey)
-	var u, _ = c.Get(constants.BaseUrlKey)
+	var u, _ = c.Get(constants.AuthUrlKey)
 	authUtils := &dto.AuthUtils{Token: t.(string), BaseUrl: u.(string)}
 	res, err := h.service.ListRegions(new(dto.ListRegionRequest), authUtils)
 	if err != nil {

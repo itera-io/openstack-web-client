@@ -41,7 +41,7 @@ func (h *ProjectsHandler) ListProjects(c *gin.Context) {
 	// 	return
 	// }
 	var t, _ = c.Get(constants.TokenKey)
-	var u, _ = c.Get(constants.BaseUrlKey)
+	var u, _ = c.Get(constants.AuthUrlKey)
 	authUtils := &dto.AuthUtils{Token: t.(string), BaseUrl: u.(string)}
 	res, err := h.service.ListProjects(new(dto.ListProjectRequest), authUtils)
 	if err != nil {

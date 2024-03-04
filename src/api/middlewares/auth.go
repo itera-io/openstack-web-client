@@ -17,7 +17,7 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 		if token == "" {
 			err = &service_errors.ServiceError{EndUserMessage: service_errors.TokenRequired}
 		}
-		url := c.GetHeader(constants.BaseUrlKey)
+		url := c.GetHeader(constants.AuthUrlKey)
 		if url == "" {
 			err = &service_errors.ServiceError{EndUserMessage: service_errors.BaseUrlRequired}
 		}
@@ -28,7 +28,7 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 			return
 		}
 		c.Set(constants.TokenKey, token)
-		c.Set(constants.BaseUrlKey, url)
+		c.Set(constants.AuthUrlKey, url)
 		c.Next()
 	}
 }
