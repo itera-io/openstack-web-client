@@ -59,6 +59,9 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	{
 		health := v2.Group("/health")
 		routers.Health(health)
+		flavor := v2.Group("/flavors", middlewares.Authentication(cfg))
+		routers.Flavor(flavor, cfg)
+
 	}
 	v3 := api.Group("/v3")
 	{

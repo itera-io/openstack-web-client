@@ -136,6 +136,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/flavors": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Flavor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Flavors"
+                ],
+                "summary": "List Flavor",
+                "parameters": [
+                    {
+                        "description": "ListFlavorRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListFlavor response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/Projects": {
             "get": {
                 "security": [
@@ -348,6 +411,31 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "minLength": 3
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.Flavor": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse": {
+            "type": "object",
+            "properties": {
+                "flavors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.Flavor"
+                    }
                 }
             }
         },
