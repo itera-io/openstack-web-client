@@ -44,7 +44,7 @@ func (s *RegionService) ListRegions(req *dto.ListRegionRequest, authUtils *dto.A
 	}
 
 	for i := 0; i < len(allRegions); i++ {
-		r.Regions = append(r.Regions, dto.RegionItem{Id: allRegions[i].ID, Name: allRegions[i].Description})
+		r.Regions = append(r.Regions, dto.CommonDto{Id: allRegions[i].ID, Name: allRegions[i].Description})
 	}
 	return r, nil
 }

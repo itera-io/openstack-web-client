@@ -10,4 +10,5 @@ func Flavor(router *gin.RouterGroup, cfg *config.Config) {
 	h := handlers.NewFlavorsHandler(cfg)
 
 	router.GET("/", h.ListFlavors)
+	router.GET("/:id/", h.GetFlavor)
 }

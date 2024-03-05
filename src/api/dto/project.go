@@ -3,7 +3,7 @@ package dto
 type ListProjectRequest struct{}
 
 type ListProjectResponse struct {
-	Projects []Project `json:"projects"`
+	Projects []CommonDto `json:"projects"`
 }
 
 type Project struct {

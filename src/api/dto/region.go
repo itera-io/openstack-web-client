@@ -3,10 +3,10 @@ package dto
 type ListRegionRequest struct{}
 
 type ListRegionResponse struct {
-	Regions []RegionItem `json:"regions"`
+	Regions []CommonDto `json:"regions"`
 }
 
-type RegionItem struct {
+type RegionDto struct {
 	Name string `json:"name"`
 	Id   string `json:"id"`
 }

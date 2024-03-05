@@ -46,7 +46,7 @@ func (s *ProjectService) ListProjects(req *dto.ListProjectRequest, authUtils *dt
 	}
 
 	for i := 0; i < len(allProjects); i++ {
-		r.Projects = append(r.Projects, dto.Project{Id: allProjects[i].ID, Name: allProjects[i].Name})
+		r.Projects = append(r.Projects, dto.CommonDto{Id: allProjects[i].ID, Name: allProjects[i].Name})
 	}
 	return r, nil
 }

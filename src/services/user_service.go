@@ -106,7 +106,7 @@ func (s *UserService) ListUserProjects(userId string, authUtils *dto.AuthUtils) 
 	}
 
 	for i := 0; i < len(allProjects); i++ {
-		r.UserProjects = append(r.UserProjects, dto.UserProject{Id: allProjects[i].ID, Name: allProjects[i].Name})
+		r.UserProjects = append(r.UserProjects, dto.CommonDto{Id: allProjects[i].ID, Name: allProjects[i].Name})
 	}
 	return r, nil
 }

@@ -90,11 +90,11 @@ func (h *UsersHandler) Authenticate(c *gin.Context) {
 // @Tags UserProjects
 // @Accept  json
 // @Produce  json
-// @Param Request body dto.ListUserProjectRequest true "ListUserProjectRequest"
+// @Param id path string true "Id"
 // @Success 200 {object} helper.BaseHttpResponse{result=dto.ListUserProjectResponse} "ListUserProject response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
-// @Router /v3/users/:id/projects [get]
+// @Router /v3/users/{id}/projects [get]
 // @Security AuthBearer
 func (h *UsersHandler) ListUserProjects(c *gin.Context) {
 	id := c.Params.ByName("id")

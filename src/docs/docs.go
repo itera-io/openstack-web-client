@@ -199,6 +199,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/flavors/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Flavor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Flavors"
+                ],
+                "summary": "Get Flavor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetFlavor response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/Projects": {
             "get": {
                 "security": [
@@ -325,7 +386,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v3/users/:id/projects": {
+        "/v3/users/{id}/projects": {
             "get": {
                 "security": [
                     {
@@ -345,13 +406,11 @@ const docTemplate = `{
                 "summary": "List UserProject",
                 "parameters": [
                     {
-                        "description": "ListUserProjectRequest",
-                        "name": "Request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest"
-                        }
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -414,7 +473,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_itera-io_openstack-web-client_api_dto.Flavor": {
+        "github_com_itera-io_openstack-web-client_api_dto.CommonDto": {
             "type": "object",
             "properties": {
                 "id": {
@@ -422,6 +481,46 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.FlavorDto": {
+            "type": "object",
+            "properties": {
+                "disk": {
+                    "description": "Disk is the amount of root disk, measured in GB.",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID is the flavor's unique ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name is the name of the flavor.",
+                    "type": "string"
+                },
+                "os-flavor-access:is_public": {
+                    "description": "IsPublic indicates whether the flavor is public.",
+                    "type": "boolean"
+                },
+                "ram": {
+                    "description": "RAM is the amount of memory, measured in MB.",
+                    "type": "integer"
+                },
+                "vcpus": {
+                    "description": "VCPUs indicates how many (virtual) CPUs are available for this flavor.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse": {
+            "type": "object",
+            "properties": {
+                "flavor": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto"
+                    }
                 }
             }
         },
@@ -434,7 +533,7 @@ const docTemplate = `{
                 "flavors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.Flavor"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
                     }
                 }
             }
@@ -448,7 +547,7 @@ const docTemplate = `{
                 "projects": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.Project"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
                     }
                 }
             }
@@ -462,13 +561,10 @@ const docTemplate = `{
                 "regions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.RegionItem"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
                     }
                 }
             }
-        },
-        "github_com_itera-io_openstack-web-client_api_dto.ListUserProjectRequest": {
-            "type": "object"
         },
         "github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse": {
             "type": "object",
@@ -476,41 +572,8 @@ const docTemplate = `{
                 "projects": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.UserProject"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
                     }
-                }
-            }
-        },
-        "github_com_itera-io_openstack-web-client_api_dto.Project": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_itera-io_openstack-web-client_api_dto.RegionItem": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_itera-io_openstack-web-client_api_dto.UserProject": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
                 }
             }
         },
