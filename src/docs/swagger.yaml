@@ -237,7 +237,7 @@ paths:
       - application/json
       description: List Flavor
       parameters:
-      - description: ListFlavorRequest
+      - description: ListFlavor Request
         in: body
         name: Request
         required: true
@@ -272,7 +272,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Flavor
+      description: Get Flavor by ID
       parameters:
       - description: Id
         in: path

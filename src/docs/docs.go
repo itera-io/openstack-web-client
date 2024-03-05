@@ -156,7 +156,7 @@ const docTemplate = `{
                 "summary": "List Flavor",
                 "parameters": [
                     {
-                        "description": "ListFlavorRequest",
+                        "description": "ListFlavor Request",
                         "name": "Request",
                         "in": "body",
                         "required": true,
@@ -206,7 +206,7 @@ const docTemplate = `{
                         "AuthBearer": []
                     }
                 ],
-                "description": "Get Flavor",
+                "description": "Get Flavor by ID",
                 "consumes": [
                     "application/json"
                 ],

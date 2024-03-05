@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/flavors"
@@ -15,7 +17,7 @@ func NewFlavorService(cfg *config.Config) *FlavorService {
 	return &FlavorService{Logger: logging.NewLogger(cfg)}
 }
 
-func (s *FlavorService) ListFlavors(req *dto.ListFlavorRequest, authUtils *dto.AuthUtils) (*dto.ListFlavorResponse, error) {
+func (s *FlavorService) ListFlavors(ctx context.Context, req *dto.ListFlavorRequest, authUtils *dto.AuthUtils) (*dto.ListFlavorResponse, error) {
 	r := &dto.ListFlavorResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,
@@ -51,7 +53,7 @@ func (s *FlavorService) ListFlavors(req *dto.ListFlavorRequest, authUtils *dto.A
 	return r, nil
 }
 
-func (s *FlavorService) GetFlavor(flavorId string, authUtils *dto.AuthUtils) (*dto.GetFlavorResponse, error) {
+func (s *FlavorService) GetFlavor(ctx context.Context, flavorId string, authUtils *dto.AuthUtils) (*dto.GetFlavorResponse, error) {
 	r := &dto.GetFlavorResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,

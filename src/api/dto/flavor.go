@@ -1,6 +1,7 @@
 package dto
 
-type ListFlavorRequest struct{}
+type ListFlavorRequest struct {
+}
 
 type ListFlavorResponse struct {
 	Flavors []CommonDto `json:"flavors"`
