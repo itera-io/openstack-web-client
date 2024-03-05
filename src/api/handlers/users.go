@@ -7,7 +7,6 @@ import (
 	"github.com/itera-io/openstack-web-client/api/dto"
 	"github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/constants"
 	"github.com/itera-io/openstack-web-client/services"
 )
 
@@ -97,21 +96,5 @@ func (h *UsersHandler) Authenticate(c *gin.Context) {
 // @Router /v3/users/{id}/projects [get]
 // @Security AuthBearer
 func (h *UsersHandler) ListUserProjects(c *gin.Context) {
-	id := c.Params.ByName("id")
-	if id == "" {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
-		return
-	}
-	var t, _ = c.Get(constants.TokenKey)
-	var u, _ = c.Get(constants.AuthUrlKey)
-	authUtils := &dto.AuthUtils{Token: t.(string), BaseUrl: u.(string)}
-	res, err := h.service.ListUserProjects(id, authUtils)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
-			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
-		return
-	}
-
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, helper.Success))
+	GetById(c, h.service.ListUserProjects)
 }

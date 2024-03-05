@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/projects"
@@ -15,7 +17,7 @@ func NewProjectService(cfg *config.Config) *ProjectService {
 	return &ProjectService{Logger: logging.NewLogger(cfg)}
 }
 
-func (s *ProjectService) ListProjects(req *dto.ListProjectRequest, authUtils *dto.AuthUtils) (*dto.ListProjectResponse, error) {
+func (s *ProjectService) ListProjects(ctx context.Context, req *dto.ListProjectRequest, authUtils *dto.AuthUtils) (*dto.ListProjectResponse, error) {
 	r := &dto.ListProjectResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,

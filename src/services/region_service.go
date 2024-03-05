@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/regions"
@@ -15,7 +17,7 @@ func NewRegionService(cfg *config.Config) *RegionService {
 	return &RegionService{Logger: logging.NewLogger(cfg)}
 }
 
-func (s *RegionService) ListRegions(req *dto.ListRegionRequest, authUtils *dto.AuthUtils) (*dto.ListRegionResponse, error) {
+func (s *RegionService) ListRegions(ctx context.Context, req *dto.ListRegionRequest, authUtils *dto.AuthUtils) (*dto.ListRegionResponse, error) {
 	r := &dto.ListRegionResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,

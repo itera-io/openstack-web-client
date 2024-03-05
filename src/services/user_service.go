@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
@@ -79,7 +81,7 @@ func (s *UserService) Authenticate(req *dto.AuthenticateUserRequest) (*dto.Authe
 }
 
 // List users' projects
-func (s *UserService) ListUserProjects(userId string, authUtils *dto.AuthUtils) (*dto.ListUserProjectResponse, error) {
+func (s *UserService) ListUserProjects(ctx context.Context, userId string, authUtils *dto.AuthUtils) (*dto.ListUserProjectResponse, error) {
 	r := &dto.ListUserProjectResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,

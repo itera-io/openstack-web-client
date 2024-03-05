@@ -1,13 +1,10 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/itera-io/openstack-web-client/api/dto"
-	"github.com/itera-io/openstack-web-client/api/helper"
+	_ "github.com/itera-io/openstack-web-client/api/dto"
+	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/constants"
 	"github.com/itera-io/openstack-web-client/services"
 )
 
@@ -33,22 +30,5 @@ func NewRegionsHandler(cfg *config.Config) *RegionsHandler {
 // @Router /v3/regions [get]
 // @Security AuthBearer
 func (h *RegionsHandler) ListRegions(c *gin.Context) {
-	// req := new(dto.ListRegionRequest)
-	// err := c.ShouldBindJSON(&req)
-	// if err != nil {
-	// 	c.AbortWithStatusJSON(http.StatusBadRequest,
-	// 		helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
-	// 	return
-	// }
-	var t, _ = c.Get(constants.TokenKey)
-	var u, _ = c.Get(constants.AuthUrlKey)
-	authUtils := &dto.AuthUtils{Token: t.(string), BaseUrl: u.(string)}
-	res, err := h.service.ListRegions(new(dto.ListRegionRequest), authUtils)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
-			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
-		return
-	}
-
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, helper.Success))
+	GetByFilter(c, h.service.ListRegions)
 }
