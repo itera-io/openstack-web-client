@@ -28,7 +28,7 @@ func (s *ImageService) ListImages(ctx context.Context, req *dto.ListImageRequest
 	if err != nil {
 		return nil, err
 	}
-	client, err := openstack.NewImageServiceV2(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
@@ -62,7 +62,7 @@ func (s *ImageService) GetImage(ctx context.Context, id string, authUtils *dto.A
 	if err != nil {
 		return nil, err
 	}
-	client, err := openstack.NewImageServiceV2(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
