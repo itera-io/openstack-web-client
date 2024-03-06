@@ -52,11 +52,46 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.GetImageResponse:
+    properties:
+      image:
+        items:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageDto'
+        type: array
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ImageDto:
+    properties:
+      disk:
+        description: Disk is the amount of root disk, measured in GB.
+        type: integer
+      id:
+        description: ID is the flavor's unique ID.
+        type: string
+      name:
+        description: Name is the name of the flavor.
+        type: string
+      ram:
+        description: RAM is the amount of memory, measured in MB.
+        type: integer
+      status:
+        description: VCPUs indicates how many (virtual) CPUs are available for this
+          flavor.
+        type: string
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse:
     properties:
       flavors:
+        items:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
+        type: array
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListImageRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListImageResponse:
+    properties:
+      images:
         items:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
         type: array
@@ -304,6 +339,79 @@ paths:
       summary: Get Flavor
       tags:
       - Flavors
+  /v2/images:
+    get:
+      consumes:
+      - application/json
+      description: List Image
+      parameters:
+      - description: ListImage Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListImageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListImage response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListImageResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Image
+      tags:
+      - Images
+  /v2/images/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Image by ID
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetImage response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetImageResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Image
+      tags:
+      - Images
   /v3/Projects:
     get:
       consumes:

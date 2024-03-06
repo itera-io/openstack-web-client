@@ -260,6 +260,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/images": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Image",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "List Image",
+                "parameters": [
+                    {
+                        "description": "ListImage Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListImageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListImage response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListImageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/images/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Image by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Get Image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetImage response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetImageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/Projects": {
             "get": {
                 "security": [
@@ -524,6 +648,42 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.GetImageResponse": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageDto"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ImageDto": {
+            "type": "object",
+            "properties": {
+                "disk": {
+                    "description": "Disk is the amount of root disk, measured in GB.",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID is the flavor's unique ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name is the name of the flavor.",
+                    "type": "string"
+                },
+                "ram": {
+                    "description": "RAM is the amount of memory, measured in MB.",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "VCPUs indicates how many (virtual) CPUs are available for this flavor.",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest": {
             "type": "object"
         },
@@ -531,6 +691,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "flavors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListImageRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListImageResponse": {
+            "type": "object",
+            "properties": {
+                "images": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
