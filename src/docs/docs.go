@@ -685,7 +685,15 @@ const docTemplate = `{
             }
         },
         "github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "minDisk": {
+                    "type": "integer"
+                },
+                "minRam": {
+                    "type": "integer"
+                }
+            }
         },
         "github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse": {
             "type": "object",
@@ -693,7 +701,7 @@ const docTemplate = `{
                 "flavors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto"
                     }
                 }
             }

@@ -79,12 +79,17 @@ definitions:
         type: string
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest:
+    properties:
+      minDisk:
+        type: integer
+      minRam:
+        type: integer
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse:
     properties:
       flavors:
         items:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto'
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListImageRequest:

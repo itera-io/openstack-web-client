@@ -1,10 +1,12 @@
 package dto
 
 type ListFlavorRequest struct {
+	MinDisk int `form:"minDisk"`
+	MinRAM  int `form:"minRam"`
 }
 
 type ListFlavorResponse struct {
-	Flavors []CommonDto `json:"flavors"`
+	Flavors []FlavorDto `json:"flavors"`
 }
 type GetFlavorResponse struct {
 	Flavor []FlavorDto `json:"flavor"`

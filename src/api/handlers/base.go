@@ -37,7 +37,7 @@ func GetById[To any](c *gin.Context, caller func(ctx context.Context, id string,
 
 func GetByFilter[Ti any, To any](c *gin.Context, caller func(ctx context.Context, req *Ti, a *dto.AuthUtils) (*To, error)) {
 	req := new(Ti)
-	err := c.ShouldBindJSON(&req)
+	err := c.ShouldBindQuery(&req)
 	if err != nil && err != io.EOF {
 		c.AbortWithStatusJSON(http.StatusBadRequest,
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))

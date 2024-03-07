@@ -35,6 +35,8 @@ func (s *FlavorService) ListFlavors(ctx context.Context, req *dto.ListFlavorRequ
 	}
 	listOpts := flavors.ListOpts{
 		AccessType: flavors.PublicAccess,
+		MinDisk:    req.MinDisk,
+		MinRAM:     req.MinRAM,
 	}
 
 	allPages, err := flavors.ListDetail(computeClient, listOpts).AllPages()
@@ -47,8 +49,8 @@ func (s *FlavorService) ListFlavors(ctx context.Context, req *dto.ListFlavorRequ
 		return nil, err
 	}
 
-	for i := 0; i < len(allFlavors); i++ {
-		r.Flavors = append(r.Flavors, dto.CommonDto{Id: allFlavors[i].ID, Name: allFlavors[i].Name})
+	for _, flavor := range allFlavors {
+		r.Flavors = append(r.Flavors, dto.FlavorDto{ID: flavor.ID, Name: flavor.Name, RAM: flavor.RAM, VCPUs: flavor.VCPUs, Disk: flavor.Disk})
 	}
 	return r, nil
 }
