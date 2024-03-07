@@ -35,7 +35,7 @@ type ProjectDto struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 }
-type Roles struct {
+type Role struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
@@ -50,4 +50,5 @@ type Token struct {
 	IsDomain  bool       `json:"is_domain"`
 	Project   ProjectDto `json:"project"`
 	User      User       `json:"user"`
+	Roles     []Role     `json:"roles"`
 }
