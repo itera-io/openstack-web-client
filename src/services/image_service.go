@@ -34,8 +34,9 @@ func (s *ImageService) ListImages(ctx context.Context, req *dto.ListImageRequest
 		return nil, err
 	}
 	listOpts := images.ListOpts{
-		Owner: req.Owner,
-		Tags:  req.Tags,
+		Owner:  req.Owner,
+		Tags:   req.Tags,
+		Status: images.ImageStatus(req.Status),
 	}
 
 	allPages, err := images.List(client, listOpts).AllPages()
@@ -48,8 +49,8 @@ func (s *ImageService) ListImages(ctx context.Context, req *dto.ListImageRequest
 		return nil, err
 	}
 
-	for i := 0; i < len(allImages); i++ {
-		r.Images = append(r.Images, dto.CommonDto{Id: allImages[i].ID, Name: allImages[i].Name})
+	for _, image := range allImages {
+		r.Images = append(r.Images, dto.ImageListItem{ID: image.ID, Name: image.Name, Tags: image.Tags})
 	}
 	return r, nil
 }
@@ -77,7 +78,7 @@ func (s *ImageService) GetImage(ctx context.Context, id string, authUtils *dto.A
 		return nil, err
 	}
 
-	r.Image = append(r.Image, dto.ImageDto{ID: image.ID, Name: image.Name, MinDisk: image.MinDiskGigabytes, MinRAM: image.MinRAMMegabytes, Status: string(image.Status)})
+	r.Image = append(r.Image, dto.ImageDto{ID: image.ID, Name: image.Name, MinDiskGigabytes: image.MinDiskGigabytes, MinRAMMegabytes: image.MinRAMMegabytes, Status: string(image.Status)})
 
 	return r, nil
 }
