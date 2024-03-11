@@ -5,7 +5,7 @@ import (
 
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/images"
+	"github.com/gophercloud/gophercloud/openstack/imageservice/v2/images"
 	"github.com/itera-io/openstack-web-client/api/dto"
 	"github.com/itera-io/openstack-web-client/config"
 	"github.com/itera-io/openstack-web-client/pkg/logging"
@@ -28,14 +28,17 @@ func (s *ImageService) ListImages(ctx context.Context, req *dto.ListImageRequest
 	if err != nil {
 		return nil, err
 	}
-	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewImageServiceV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
 	}
-	listOpts := images.ListOpts{}
+	listOpts := images.ListOpts{
+		Owner: req.Owner,
+		Tags:  req.Tags,
+	}
 
-	allPages, err := images.ListDetail(client, listOpts).AllPages()
+	allPages, err := images.List(client, listOpts).AllPages()
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +65,7 @@ func (s *ImageService) GetImage(ctx context.Context, id string, authUtils *dto.A
 	if err != nil {
 		return nil, err
 	}
-	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewImageServiceV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
@@ -74,7 +77,7 @@ func (s *ImageService) GetImage(ctx context.Context, id string, authUtils *dto.A
 		return nil, err
 	}
 
-	r.Image = append(r.Image, dto.ImageDto{ID: image.ID, Name: image.Name, MinDisk: image.MinDisk, MinRAM: image.MinRAM, Status: image.Status})
+	r.Image = append(r.Image, dto.ImageDto{ID: image.ID, Name: image.Name, MinDisk: image.MinDiskGigabytes, MinRAM: image.MinRAMMegabytes, Status: string(image.Status)})
 
 	return r, nil
 }

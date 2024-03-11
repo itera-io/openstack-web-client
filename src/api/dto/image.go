@@ -1,6 +1,11 @@
 package dto
 
 type ListImageRequest struct {
+	// Owner filters on the project ID of the image.
+	Owner string `form:"owner"`
+
+	// Tags filters on specific image tags.
+	Tags []string `form:"tag"`
 }
 
 type ListImageResponse struct {

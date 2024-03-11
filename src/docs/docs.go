@@ -707,7 +707,20 @@ const docTemplate = `{
             }
         },
         "github_com_itera-io_openstack-web-client_api_dto.ListImageRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "owner": {
+                    "description": "Owner filters on the project ID of the image.",
+                    "type": "string"
+                },
+                "tag": {
+                    "description": "Tags filters on specific image tags.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "github_com_itera-io_openstack-web-client_api_dto.ListImageResponse": {
             "type": "object",

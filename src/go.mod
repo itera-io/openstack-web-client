@@ -49,7 +49,7 @@ require (
 	github.com/go-playground/validator/v10 v10.18.0
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/uuid v1.6.0
-	github.com/gophercloud/gophercloud v1.9.0
+	github.com/gophercloud/gophercloud v1.11.0
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect

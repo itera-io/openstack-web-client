@@ -93,6 +93,15 @@ definitions:
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListImageRequest:
+    properties:
+      owner:
+        description: Owner filters on the project ID of the image.
+        type: string
+      tag:
+        description: Tags filters on specific image tags.
+        items:
+          type: string
+        type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListImageResponse:
     properties:
