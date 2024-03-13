@@ -576,24 +576,30 @@ const docTemplate = `{
         "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
             "type": "object",
             "required": [
-                "password",
-                "url",
-                "username"
+                "url"
             ],
             "properties": {
+                "applicationCredentialID": {
+                    "description": "Authentication through Application Credentials requires supplying name, project and secret\nFor project we can use TenantID",
+                    "type": "string"
+                },
+                "applicationCredentialName": {
+                    "type": "string"
+                },
+                "applicationCredentialSecret": {
+                    "type": "string"
+                },
                 "domain": {
                     "type": "string"
                 },
                 "password": {
-                    "type": "string",
-                    "minLength": 6
+                    "type": "string"
                 },
                 "url": {
                     "type": "string"
                 },
                 "username": {
-                    "type": "string",
-                    "minLength": 3
+                    "type": "string"
                 }
             }
         },
@@ -684,6 +690,34 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ImageListItem": {
+            "type": "object",
+            "properties": {
+                "disk": {
+                    "description": "Disk is the amount of root disk, measured in GB.",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID is the flavor's unique ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name is the name of the flavor.",
+                    "type": "string"
+                },
+                "ram": {
+                    "description": "RAM is the amount of memory, measured in MB.",
+                    "type": "integer"
+                },
+                "tag": {
+                    "description": "Tags filters on specific image tags.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest": {
             "type": "object",
             "properties": {
@@ -713,6 +747,10 @@ const docTemplate = `{
                     "description": "Owner filters on the project ID of the image.",
                     "type": "string"
                 },
+                "status": {
+                    "description": "Status filters on the status of the image.\nMultiple statuses can be specified by constructing a string\nsuch as \"in:saving,queued,active\".",
+                    "type": "string"
+                },
                 "tag": {
                     "description": "Tags filters on specific image tags.",
                     "type": "array",
@@ -728,7 +766,7 @@ const docTemplate = `{
                 "images": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto"
+                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageListItem"
                     }
                 }
             }

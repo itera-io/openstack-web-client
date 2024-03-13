@@ -21,7 +21,8 @@ func NewUserService(cfg *config.Config) *UserService {
 }
 
 // Validate user
-func (s *UserService) Validate(req *dto.ValidateUserRequest) (bool, error) {
+func (s *UserService) Validate(ctx context.Context, req *dto.ValidateUserRequest) (*dto.ValidateUserResponse, error) {
+	r := &dto.ValidateUserResponse{IsAuthenticated: false}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: req.Url,
 		Username:         req.Username,
@@ -32,33 +33,36 @@ func (s *UserService) Validate(req *dto.ValidateUserRequest) (bool, error) {
 
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
-		return false, err
+		return r, err
 	}
 
 	// Example of creating a service client, e.g., for Compute
 	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
-		return false, err
+		return r, err
 	}
 
 	// Perform a test operation to validate if authentication is successful
 	_, err = servers.List(client, servers.ListOpts{}).AllPages()
 	if err != nil {
-		return false, err
+		return r, err
 	}
-
-	return true, nil
+	r.IsAuthenticated = true
+	return r, nil
 }
 
 // Authenticate user
-func (s *UserService) Authenticate(req *dto.AuthenticateUserRequest) (*dto.AuthenticateUserResponse, error) {
+func (s *UserService) Authenticate(ctx context.Context, req *dto.AuthenticateUserRequest) (*dto.AuthenticateUserResponse, error) {
 	r := &dto.AuthenticateUserResponse{}
 	opts := gophercloud.AuthOptions{
-		IdentityEndpoint: req.Url,
-		Username:         req.Username,
-		Password:         req.Password,
-		DomainName:       req.Domain,
-		AllowReauth:      true,
+		IdentityEndpoint:            req.Url,
+		Username:                    req.Username,
+		Password:                    req.Password,
+		DomainName:                  req.Domain,
+		AllowReauth:                 true,
+		ApplicationCredentialID:     req.ApplicationCredentialID,
+		ApplicationCredentialName:   req.ApplicationCredentialName,
+		ApplicationCredentialSecret: req.ApplicationCredentialSecret,
 	}
 
 	provider, err := openstack.AuthenticatedClient(opts)

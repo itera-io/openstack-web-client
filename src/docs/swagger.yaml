@@ -1,20 +1,25 @@
 definitions:
   github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
     properties:
+      applicationCredentialID:
+        description: |-
+          Authentication through Application Credentials requires supplying name, project and secret
+          For project we can use TenantID
+        type: string
+      applicationCredentialName:
+        type: string
+      applicationCredentialSecret:
+        type: string
       domain:
         type: string
       password:
-        minLength: 6
         type: string
       url:
         type: string
       username:
-        minLength: 3
         type: string
     required:
-    - password
     - url
-    - username
     type: object
   github_com_itera-io_openstack-web-client_api_dto.CommonDto:
     properties:
@@ -78,6 +83,26 @@ definitions:
           flavor.
         type: string
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ImageListItem:
+    properties:
+      disk:
+        description: Disk is the amount of root disk, measured in GB.
+        type: integer
+      id:
+        description: ID is the flavor's unique ID.
+        type: string
+      name:
+        description: Name is the name of the flavor.
+        type: string
+      ram:
+        description: RAM is the amount of memory, measured in MB.
+        type: integer
+      tag:
+        description: Tags filters on specific image tags.
+        items:
+          type: string
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest:
     properties:
       minDisk:
@@ -97,6 +122,12 @@ definitions:
       owner:
         description: Owner filters on the project ID of the image.
         type: string
+      status:
+        description: |-
+          Status filters on the status of the image.
+          Multiple statuses can be specified by constructing a string
+          such as "in:saving,queued,active".
+        type: string
       tag:
         description: Tags filters on specific image tags.
         items:
@@ -107,7 +138,7 @@ definitions:
     properties:
       images:
         items:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageListItem'
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest:

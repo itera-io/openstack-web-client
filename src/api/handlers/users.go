@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/itera-io/openstack-web-client/api/dto"
-	"github.com/itera-io/openstack-web-client/api/helper"
+	_ "github.com/itera-io/openstack-web-client/api/dto"
+	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
 	"github.com/itera-io/openstack-web-client/services"
 )
@@ -31,27 +29,7 @@ func NewUsersHandler(cfg *config.Config) *UsersHandler {
 // @Failure 409 {object} helper.BaseHttpResponse "Failed"
 // @Router /v1/users/validate [post]
 func (h *UsersHandler) Validate(c *gin.Context) {
-	req := new(dto.ValidateUserRequest)
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest,
-			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
-		return
-	}
-	authenticated, err := h.service.Validate(req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
-			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
-		return
-	}
-
-	if !authenticated {
-		c.AbortWithStatusJSON(http.StatusUnauthorized,
-			helper.GenerateBaseResponseWithAnyError(nil, false, helper.AuthError, err))
-		return
-	}
-
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(authenticated, true, helper.Success))
+	Create(c, h.service.Validate)
 }
 
 // Authenticate godoc
@@ -66,21 +44,7 @@ func (h *UsersHandler) Validate(c *gin.Context) {
 // @Failure 409 {object} helper.BaseHttpResponse "Failed"
 // @Router /v1/users/auth [post]
 func (h *UsersHandler) Authenticate(c *gin.Context) {
-	req := new(dto.AuthenticateUserRequest)
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest,
-			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
-		return
-	}
-	tDto, err := h.service.Authenticate(req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
-			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
-		return
-	}
-
-	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(tDto, true, helper.Success))
+	Create(c, h.service.Authenticate)
 }
 
 // ListUserProject godoc

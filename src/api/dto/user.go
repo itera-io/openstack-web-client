@@ -12,13 +12,29 @@ type ValidateUserRequest struct {
 }
 
 type ValidateUserResponse struct {
+	IsAuthenticated bool `json:"isAuthenticated"`
 }
 
 type AuthenticateUserRequest struct {
-	Username string `json:"username" binding:"required,min=3"`
-	Password string `json:"password" binding:"required,min=6"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 	Url      string `json:"url" binding:"required"`
 	Domain   string `json:"domain"`
+	// Authentication through Application Credentials requires supplying name, project and secret
+	// For project we can use TenantID
+	ApplicationCredentialID     string `json:"applicationCredentialID"`
+	ApplicationCredentialName   string `json:"applicationCredentialName"`
+	ApplicationCredentialSecret string `json:"applicationCredentialSecret"`
+}
+
+type AuthenticateAdminUserRequest struct {
+	Url    string `json:"url" binding:"required"`
+	Domain string `json:"domain"`
+	// Authentication through Application Credentials requires supplying name, project and secret
+	// For project we can use TenantID
+	ApplicationCredentialID     string `json:"-"`
+	ApplicationCredentialName   string `json:"-"`
+	ApplicationCredentialSecret string `json:"-"`
 }
 
 type AuthenticateUserResponse struct {
