@@ -17,6 +17,15 @@ definitions:
         description: Version is the maximum microversion supported.
         type: string
     type: object
+  availabilityzones.AvailabilityZone:
+    properties:
+      id:
+        description: The availability zone ID.
+        type: string
+      name:
+        description: The name of the availability zone.
+        type: string
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
     properties:
       applicationCredentialID:
@@ -128,6 +137,15 @@ definitions:
       apiversions:
         items:
           $ref: '#/definitions/apiversions.APIVersion'
+        type: array
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneResponse:
+    properties:
+      availabilityzones:
+        items:
+          $ref: '#/definitions/availabilityzones.AvailabilityZone'
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest:
@@ -375,6 +393,43 @@ paths:
       summary: List ApiVersion
       tags:
       - ApiVersions
+  /v2/availabilityzones:
+    get:
+      consumes:
+      - application/json
+      description: List AvailabilityZone
+      parameters:
+      - description: ListAvailabilityZone Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListAvailabilityZone response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List AvailabilityZone
+      tags:
+      - AvailabilityZones
   /v2/flavors:
     get:
       consumes:

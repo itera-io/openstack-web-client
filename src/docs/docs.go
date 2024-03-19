@@ -199,6 +199,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/availabilityzones": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List AvailabilityZone",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AvailabilityZones"
+                ],
+                "summary": "List AvailabilityZone",
+                "parameters": [
+                    {
+                        "description": "ListAvailabilityZone Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListAvailabilityZone response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/flavors": {
             "get": {
                 "security": [
@@ -661,6 +724,19 @@ const docTemplate = `{
                 }
             }
         },
+        "availabilityzones.AvailabilityZone": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "The availability zone ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "The name of the availability zone.",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
             "type": "object",
             "required": [
@@ -816,6 +892,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/apiversions.APIVersion"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListAvailabilityZoneResponse": {
+            "type": "object",
+            "properties": {
+                "availabilityzones": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/availabilityzones.AvailabilityZone"
                     }
                 }
             }
