@@ -63,6 +63,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.Flavor(flavor, cfg)
 		image := v2.Group("/images", middlewares.Authentication(cfg))
 		routers.Image(image, cfg)
+		apiversion := v2.Group("/apiversions", middlewares.Authentication(cfg))
+		routers.ApiVersion(apiversion, cfg)
 
 	}
 	v3 := api.Group("/v3")

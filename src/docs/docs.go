@@ -136,6 +136,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/apiversions": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List ApiVersion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApiVersions"
+                ],
+                "summary": "List ApiVersion",
+                "parameters": [
+                    {
+                        "description": "ListApiVersion Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListApiVersionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListApiVersion response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListApiVersionResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/flavors": {
             "get": {
                 "security": [
@@ -573,6 +636,31 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "apiversions.APIVersion": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID is the unique identifier of the API version.",
+                    "type": "string"
+                },
+                "min_version": {
+                    "description": "MinVersion is the minimum microversion supported.",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Status is the API versions status.",
+                    "type": "string"
+                },
+                "updated": {
+                    "description": "Updated is the date when the API was last updated.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "Version is the maximum microversion supported.",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
             "type": "object",
             "required": [
@@ -714,6 +802,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListApiVersionRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListApiVersionResponse": {
+            "type": "object",
+            "properties": {
+                "apiversions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apiversions.APIVersion"
                     }
                 }
             }
