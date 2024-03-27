@@ -11,13 +11,13 @@ import (
 	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
-type ComputeLimitService struct{ Logger logging.Logger }
+type ComputeService struct{ Logger logging.Logger }
 
-func NewComputeLimitService(cfg *config.Config) *ComputeLimitService {
-	return &ComputeLimitService{Logger: logging.NewLogger(cfg)}
+func NewComputeService(cfg *config.Config) *ComputeService {
+	return &ComputeService{Logger: logging.NewLogger(cfg)}
 }
 
-func (s *ComputeLimitService) Get(ctx context.Context, req *dto.GetComputeLimitRequest, authUtils *dto.AuthUtils) (*dto.GetComputeLimitResponse, error) {
+func (s *ComputeService) GetLimits(ctx context.Context, req *dto.GetComputeLimitRequest, authUtils *dto.AuthUtils) (*dto.GetComputeLimitResponse, error) {
 	r := &dto.GetComputeLimitResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,

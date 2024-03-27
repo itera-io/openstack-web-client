@@ -8,13 +8,13 @@ import (
 	"github.com/itera-io/openstack-web-client/services"
 )
 
-type ComputeLimitsHandler struct {
-	service *services.ComputeLimitService
+type ComputeHandler struct {
+	service *services.ComputeService
 }
 
-func NewComputeHandler(cfg *config.Config) *ComputeLimitsHandler {
-	service := services.NewComputeLimitService(cfg)
-	return &ComputeLimitsHandler{service: service}
+func NewComputeHandler(cfg *config.Config) *ComputeHandler {
+	service := services.NewComputeService(cfg)
+	return &ComputeHandler{service: service}
 }
 
 // GetComputeLimit godoc
@@ -28,6 +28,6 @@ func NewComputeHandler(cfg *config.Config) *ComputeLimitsHandler {
 // @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
 // @Router /v2/compute/limits [get]
 // @Security AuthBearer
-func (h *ComputeLimitsHandler) GetComputeLimit(c *gin.Context) {
-	GetByFilter(c, h.service.Get)
+func (h *ComputeHandler) GetComputeLimit(c *gin.Context) {
+	GetByFilter(c, h.service.GetLimits)
 }
