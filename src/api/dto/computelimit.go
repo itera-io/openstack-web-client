@@ -8,5 +8,5 @@ type GetComputeLimitRequest struct {
 }
 
 type GetComputeLimitResponse struct {
-	ComputeLimits limits.Limits `json:"volumetypes"`
+	ComputeLimits limits.Limits `json:"limits"`
 }

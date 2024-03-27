@@ -6,8 +6,8 @@ import (
 	"github.com/itera-io/openstack-web-client/config"
 )
 
-func Compute(router *gin.RouterGroup, cfg *config.Config) {
-	h := handlers.NewComputeHandler(cfg)
+func ComputeLimits(router *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewComputeLimitsHandler(cfg)
 
-	router.GET("/limits", h.GetComputeLimit)
+	router.GET("/limits", h.GetComputeLimits)
 }

@@ -282,7 +282,7 @@ const docTemplate = `{
                 "summary": "Get Compute Limits",
                 "responses": {
                     "200": {
-                        "description": "GetComputeLimit response",
+                        "description": "GetComputeLimits response",
                         "schema": {
                             "allOf": [
                                 {
@@ -541,6 +541,69 @@ const docTemplate = `{
                                     "properties": {
                                         "result": {
                                             "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetImageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/networking/quotas": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Network Quotas",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NetworkQuotas"
+                ],
+                "summary": "Get Network Quotas",
+                "parameters": [
+                    {
+                        "description": "GetNetworkQuota Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetNetworkQuotaRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetNetworkQuota response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetNetworkQuotaResponse"
                                         }
                                     }
                                 }
@@ -925,7 +988,7 @@ const docTemplate = `{
         "github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse": {
             "type": "object",
             "properties": {
-                "volumetypes": {
+                "limits": {
                     "$ref": "#/definitions/limits.Limits"
                 }
             }
@@ -949,6 +1012,22 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageDto"
                     }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.GetNetworkQuotaRequest": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.GetNetworkQuotaResponse": {
+            "type": "object",
+            "properties": {
+                "quota": {
+                    "$ref": "#/definitions/quotas.Quota"
                 }
             }
         },
@@ -1315,6 +1394,51 @@ const docTemplate = `{
                             "$ref": "#/definitions/limits.Absolute"
                         }
                     ]
+                }
+            }
+        },
+        "quotas.Quota": {
+            "type": "object",
+            "properties": {
+                "floatingip": {
+                    "description": "FloatingIP represents a number of floating IPs. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "network": {
+                    "description": "Network represents a number of networks. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "port": {
+                    "description": "Port represents a number of ports. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "rbac_policy": {
+                    "description": "RBACPolicy represents a number of RBAC policies. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "router": {
+                    "description": "Router represents a number of routers. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "security_group": {
+                    "description": "SecurityGroup represents a number of security groups. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "security_group_rule": {
+                    "description": "SecurityGroupRule represents a number of security group rules. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "subnet": {
+                    "description": "Subnet represents a number of subnets. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "subnetpool": {
+                    "description": "SubnetPool represents a number of subnet pools. A \"-1\" value means no limit.",
+                    "type": "integer"
+                },
+                "trunk": {
+                    "description": "Trunk represents a number of trunks. A \"-1\" value means no limit.",
+                    "type": "integer"
                 }
             }
         },
