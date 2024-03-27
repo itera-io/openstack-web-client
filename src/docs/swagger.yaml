@@ -211,6 +211,15 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeResponse:
+    properties:
+      volumetypes:
+        items:
+          $ref: '#/definitions/volumetypes.VolumeType'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest:
     properties:
       domain:
@@ -272,6 +281,32 @@ definitions:
       tag:
         type: string
       value:
+        type: string
+    type: object
+  volumetypes.VolumeType:
+    properties:
+      description:
+        description: Human-readable description for the volume type.
+        type: string
+      extra_specs:
+        additionalProperties:
+          type: string
+        description: Arbitrary key-value pairs defined by the user.
+        type: object
+      id:
+        description: Unique identifier for the volume type.
+        type: string
+      is_public:
+        description: Whether the volume type is publicly visible.
+        type: boolean
+      name:
+        description: Human-readable display name for the volume type.
+        type: string
+      os-volume-type-access:is_public:
+        description: Volume Type access public attribute
+        type: boolean
+      qos_specs_id:
+        description: Qos Spec ID
         type: string
     type: object
 info:
@@ -686,4 +721,41 @@ paths:
       summary: List UserProject
       tags:
       - UserProjects
+  /v3/volumetypes:
+    get:
+      consumes:
+      - application/json
+      description: List VolumeType
+      parameters:
+      - description: ListVolumeType Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListVolumeType response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List VolumeType
+      tags:
+      - VolumeTypes
 swagger: "2.0"

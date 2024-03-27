@@ -696,6 +696,69 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v3/volumetypes": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List VolumeType",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VolumeTypes"
+                ],
+                "summary": "List VolumeType",
+                "parameters": [
+                    {
+                        "description": "ListVolumeType Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListVolumeType response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1002,6 +1065,20 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeResponse": {
+            "type": "object",
+            "properties": {
+                "volumetypes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/volumetypes.VolumeType"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest": {
             "type": "object",
             "required": [
@@ -1083,6 +1160,42 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "volumetypes.VolumeType": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "Human-readable description for the volume type.",
+                    "type": "string"
+                },
+                "extra_specs": {
+                    "description": "Arbitrary key-value pairs defined by the user.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "description": "Unique identifier for the volume type.",
+                    "type": "string"
+                },
+                "is_public": {
+                    "description": "Whether the volume type is publicly visible.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Human-readable display name for the volume type.",
+                    "type": "string"
+                },
+                "os-volume-type-access:is_public": {
+                    "description": "Volume Type access public attribute",
+                    "type": "boolean"
+                },
+                "qos_specs_id": {
+                    "description": "Qos Spec ID",
                     "type": "string"
                 }
             }

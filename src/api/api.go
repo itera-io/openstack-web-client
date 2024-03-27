@@ -73,9 +73,11 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		region := v3.Group("/regions", middlewares.Authentication(cfg))
 		user := v3.Group("/users", middlewares.Authentication(cfg))
 		project := v3.Group("/projects", middlewares.Authentication(cfg))
+		volumetype := v3.Group("/volumetypes", middlewares.Authentication(cfg))
 		routers.Region(region, cfg)
 		routers.Project(project, cfg)
 		routers.AuthenticatedUser(user, cfg)
+		routers.VolumeType(volumetype, cfg)
 	}
 }
 
