@@ -77,6 +77,11 @@ definitions:
           flavor.
         type: integer
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse:
+    properties:
+      volumetypes:
+        $ref: '#/definitions/limits.Limits'
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse:
     properties:
       flavor:
@@ -283,6 +288,89 @@ definitions:
       value:
         type: string
     type: object
+  limits.Absolute:
+    properties:
+      maxImageMeta:
+        description: MaxImageMeta is the amount of image metadata available to a tenant.
+        type: integer
+      maxPersonality:
+        description: MaxPersonality is the amount of personality/files available to
+          a tenant.
+        type: integer
+      maxPersonalitySize:
+        description: MaxPersonalitySize is the personality file size available to
+          a tenant.
+        type: integer
+      maxSecurityGroupRules:
+        description: |-
+          MaxSecurityGroupRules is the number of security group rules available to
+          a tenant.
+        type: integer
+      maxSecurityGroups:
+        description: MaxSecurityGroups is the number of security groups available
+          to a tenant.
+        type: integer
+      maxServerGroupMembers:
+        description: |-
+          MaxServerGroupMembers is the number of server group members available
+          to a tenant.
+        type: integer
+      maxServerGroups:
+        description: MaxServerGroups is the number of server groups available to a
+          tenant.
+        type: integer
+      maxServerMeta:
+        description: MaxServerMeta is the amount of server metadata available to a
+          tenant.
+        type: integer
+      maxTotalCores:
+        description: MaxTotalCores is the number of cores available to a tenant.
+        type: integer
+      maxTotalFloatingIps:
+        description: MaxTotalFloatingIps is the number of floating IPs available to
+          a tenant.
+        type: integer
+      maxTotalInstances:
+        description: MaxTotalInstances is the number of instances/servers available
+          to a tenant.
+        type: integer
+      maxTotalKeypairs:
+        description: MaxTotalKeypairs is the total keypairs available to a tenant.
+        type: integer
+      maxTotalRAMSize:
+        description: |-
+          MaxTotalRAMSize is the total amount of RAM available to a tenant measured
+          in megabytes (MB).
+        type: integer
+      totalCoresUsed:
+        description: TotalCoresUsed is the number of cores currently in use.
+        type: integer
+      totalFloatingIpsUsed:
+        description: TotalFloatingIpsUsed is the number of floating IPs in use.
+        type: integer
+      totalInstancesUsed:
+        description: TotalInstancesUsed is the number of instances/servers in use.
+        type: integer
+      totalRAMUsed:
+        description: TotalRAMUsed is the total RAM/memory in use measured in megabytes
+          (MB).
+        type: integer
+      totalSecurityGroupsUsed:
+        description: TotalSecurityGroupsUsed is the total number of security groups
+          in use.
+        type: integer
+      totalServerGroupsUsed:
+        description: TotalServerGroupsUsed is the total number of server groups in
+          use.
+        type: integer
+    type: object
+  limits.Limits:
+    properties:
+      absolute:
+        allOf:
+        - $ref: '#/definitions/limits.Absolute'
+        description: Absolute contains the limits and usage information.
+    type: object
   volumetypes.VolumeType:
     properties:
       description:
@@ -465,6 +553,36 @@ paths:
       summary: List AvailabilityZone
       tags:
       - AvailabilityZones
+  /v2/compute/limits:
+    get:
+      consumes:
+      - application/json
+      description: Get Compute Limits
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetComputeLimit response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Compute Limits
+      tags:
+      - ComputeLimits
   /v2/flavors:
     get:
       consumes:

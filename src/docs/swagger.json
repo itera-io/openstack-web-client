@@ -251,6 +251,58 @@
                 }
             }
         },
+        "/v2/compute/limits": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Compute Limits",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ComputeLimits"
+                ],
+                "summary": "Get Compute Limits",
+                "responses": {
+                    "200": {
+                        "description": "GetComputeLimit response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/flavors": {
             "get": {
                 "security": [
@@ -859,6 +911,14 @@
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse": {
+            "type": "object",
+            "properties": {
+                "volumetypes": {
+                    "$ref": "#/definitions/limits.Limits"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse": {
             "type": "object",
             "properties": {
@@ -1150,6 +1210,100 @@
                 },
                 "value": {
                     "type": "string"
+                }
+            }
+        },
+        "limits.Absolute": {
+            "type": "object",
+            "properties": {
+                "maxImageMeta": {
+                    "description": "MaxImageMeta is the amount of image metadata available to a tenant.",
+                    "type": "integer"
+                },
+                "maxPersonality": {
+                    "description": "MaxPersonality is the amount of personality/files available to a tenant.",
+                    "type": "integer"
+                },
+                "maxPersonalitySize": {
+                    "description": "MaxPersonalitySize is the personality file size available to a tenant.",
+                    "type": "integer"
+                },
+                "maxSecurityGroupRules": {
+                    "description": "MaxSecurityGroupRules is the number of security group rules available to\na tenant.",
+                    "type": "integer"
+                },
+                "maxSecurityGroups": {
+                    "description": "MaxSecurityGroups is the number of security groups available to a tenant.",
+                    "type": "integer"
+                },
+                "maxServerGroupMembers": {
+                    "description": "MaxServerGroupMembers is the number of server group members available\nto a tenant.",
+                    "type": "integer"
+                },
+                "maxServerGroups": {
+                    "description": "MaxServerGroups is the number of server groups available to a tenant.",
+                    "type": "integer"
+                },
+                "maxServerMeta": {
+                    "description": "MaxServerMeta is the amount of server metadata available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalCores": {
+                    "description": "MaxTotalCores is the number of cores available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalFloatingIps": {
+                    "description": "MaxTotalFloatingIps is the number of floating IPs available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalInstances": {
+                    "description": "MaxTotalInstances is the number of instances/servers available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalKeypairs": {
+                    "description": "MaxTotalKeypairs is the total keypairs available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalRAMSize": {
+                    "description": "MaxTotalRAMSize is the total amount of RAM available to a tenant measured\nin megabytes (MB).",
+                    "type": "integer"
+                },
+                "totalCoresUsed": {
+                    "description": "TotalCoresUsed is the number of cores currently in use.",
+                    "type": "integer"
+                },
+                "totalFloatingIpsUsed": {
+                    "description": "TotalFloatingIpsUsed is the number of floating IPs in use.",
+                    "type": "integer"
+                },
+                "totalInstancesUsed": {
+                    "description": "TotalInstancesUsed is the number of instances/servers in use.",
+                    "type": "integer"
+                },
+                "totalRAMUsed": {
+                    "description": "TotalRAMUsed is the total RAM/memory in use measured in megabytes (MB).",
+                    "type": "integer"
+                },
+                "totalSecurityGroupsUsed": {
+                    "description": "TotalSecurityGroupsUsed is the total number of security groups in use.",
+                    "type": "integer"
+                },
+                "totalServerGroupsUsed": {
+                    "description": "TotalServerGroupsUsed is the total number of server groups in use.",
+                    "type": "integer"
+                }
+            }
+        },
+        "limits.Limits": {
+            "type": "object",
+            "properties": {
+                "absolute": {
+                    "description": "Absolute contains the limits and usage information.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/limits.Absolute"
+                        }
+                    ]
                 }
             }
         },

@@ -67,6 +67,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.ApiVersion(apiversion, cfg)
 		availabilityzones := v2.Group("/availabilityzones", middlewares.Authentication(cfg))
 		routers.AvailabilityZone(availabilityzones, cfg)
+		compute := v2.Group("/compute", middlewares.Authentication(cfg))
+		routers.Compute(compute, cfg)
 	}
 	v3 := api.Group("/v3")
 	{
