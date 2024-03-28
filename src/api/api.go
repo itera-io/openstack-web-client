@@ -75,13 +75,15 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	v3 := api.Group("/v3")
 	{
 		region := v3.Group("/regions", middlewares.Authentication(cfg))
-		user := v3.Group("/users", middlewares.Authentication(cfg))
-		project := v3.Group("/projects", middlewares.Authentication(cfg))
-		volumetype := v3.Group("/volumetypes", middlewares.Authentication(cfg))
 		routers.Region(region, cfg)
-		routers.Project(project, cfg)
+		user := v3.Group("/users", middlewares.Authentication(cfg))
 		routers.AuthenticatedUser(user, cfg)
+		project := v3.Group("/projects", middlewares.Authentication(cfg))
+		routers.Project(project, cfg)
+		volumetype := v3.Group("/volumetypes", middlewares.Authentication(cfg))
 		routers.VolumeType(volumetype, cfg)
+		volumeLimits := v3.Group("/volume", middlewares.Authentication(cfg))
+		routers.VolumeLimits(volumeLimits, cfg)
 	}
 }
 

@@ -812,6 +812,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/v3/volume/limits": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Volume Limits",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VolumeLimits"
+                ],
+                "summary": "Get Volume Limits",
+                "responses": {
+                    "200": {
+                        "description": "GetVolumeLimits response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetVolumeLimitResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/volumetypes": {
             "get": {
                 "security": [
@@ -915,6 +967,165 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute": {
+            "type": "object",
+            "properties": {
+                "maxTotalBackupGigabytes": {
+                    "description": "MaxTotalBackupGigabytes is the maximum total amount of backups, in gibibytes (GiB).",
+                    "type": "integer"
+                },
+                "maxTotalBackups": {
+                    "description": "MaxTotalBackups is the maximum number of backups.",
+                    "type": "integer"
+                },
+                "maxTotalSnapshots": {
+                    "description": "MaxTotalSnapshots is the maximum number of snapshots.",
+                    "type": "integer"
+                },
+                "maxTotalVolumeGigabytes": {
+                    "description": "MaxTotalVolumeGigabytes is the maximum total amount of volumes, in gibibytes (GiB).",
+                    "type": "integer"
+                },
+                "maxTotalVolumes": {
+                    "description": "MaxTotalVolumes is the maximum number of volumes.",
+                    "type": "integer"
+                },
+                "totalBackupGigabytesUsed": {
+                    "description": "TotalBackupGigabytesUsed is the total number of backups gibibytes (GiB) used.",
+                    "type": "integer"
+                },
+                "totalBackupsUsed": {
+                    "description": "TotalBackupsUsed is the total number of backups used.",
+                    "type": "integer"
+                },
+                "totalGigabytesUsed": {
+                    "description": "TotalGigabytesUsed is the total number of gibibytes (GiB) used.",
+                    "type": "integer"
+                },
+                "totalSnapshotsUsed": {
+                    "description": "TotalSnapshotsUsed the total number of snapshots used.",
+                    "type": "integer"
+                },
+                "totalVolumesUsed": {
+                    "description": "TotalVolumesUsed is the total number of volumes used.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Limits": {
+            "type": "object",
+            "properties": {
+                "absolute": {
+                    "description": "Absolute contains the limits and usage information.\nAn absolute limit value of -1 indicates that the absolute limit for the item is infinite.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute"
+                        }
+                    ]
+                },
+                "rate": {
+                    "description": "Rate contains rate-limit volume copy bandwidth, used to mitigate slow down of data access from the instances.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/limits.Rate"
+                    }
+                }
+            }
+        },
+        "github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Absolute": {
+            "type": "object",
+            "properties": {
+                "maxImageMeta": {
+                    "description": "MaxImageMeta is the amount of image metadata available to a tenant.",
+                    "type": "integer"
+                },
+                "maxPersonality": {
+                    "description": "MaxPersonality is the amount of personality/files available to a tenant.",
+                    "type": "integer"
+                },
+                "maxPersonalitySize": {
+                    "description": "MaxPersonalitySize is the personality file size available to a tenant.",
+                    "type": "integer"
+                },
+                "maxSecurityGroupRules": {
+                    "description": "MaxSecurityGroupRules is the number of security group rules available to\na tenant.",
+                    "type": "integer"
+                },
+                "maxSecurityGroups": {
+                    "description": "MaxSecurityGroups is the number of security groups available to a tenant.",
+                    "type": "integer"
+                },
+                "maxServerGroupMembers": {
+                    "description": "MaxServerGroupMembers is the number of server group members available\nto a tenant.",
+                    "type": "integer"
+                },
+                "maxServerGroups": {
+                    "description": "MaxServerGroups is the number of server groups available to a tenant.",
+                    "type": "integer"
+                },
+                "maxServerMeta": {
+                    "description": "MaxServerMeta is the amount of server metadata available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalCores": {
+                    "description": "MaxTotalCores is the number of cores available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalFloatingIps": {
+                    "description": "MaxTotalFloatingIps is the number of floating IPs available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalInstances": {
+                    "description": "MaxTotalInstances is the number of instances/servers available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalKeypairs": {
+                    "description": "MaxTotalKeypairs is the total keypairs available to a tenant.",
+                    "type": "integer"
+                },
+                "maxTotalRAMSize": {
+                    "description": "MaxTotalRAMSize is the total amount of RAM available to a tenant measured\nin megabytes (MB).",
+                    "type": "integer"
+                },
+                "totalCoresUsed": {
+                    "description": "TotalCoresUsed is the number of cores currently in use.",
+                    "type": "integer"
+                },
+                "totalFloatingIpsUsed": {
+                    "description": "TotalFloatingIpsUsed is the number of floating IPs in use.",
+                    "type": "integer"
+                },
+                "totalInstancesUsed": {
+                    "description": "TotalInstancesUsed is the number of instances/servers in use.",
+                    "type": "integer"
+                },
+                "totalRAMUsed": {
+                    "description": "TotalRAMUsed is the total RAM/memory in use measured in megabytes (MB).",
+                    "type": "integer"
+                },
+                "totalSecurityGroupsUsed": {
+                    "description": "TotalSecurityGroupsUsed is the total number of security groups in use.",
+                    "type": "integer"
+                },
+                "totalServerGroupsUsed": {
+                    "description": "TotalServerGroupsUsed is the total number of server groups in use.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Limits": {
+            "type": "object",
+            "properties": {
+                "absolute": {
+                    "description": "Absolute contains the limits and usage information.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Absolute"
+                        }
+                    ]
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
             "type": "object",
             "required": [
@@ -989,7 +1200,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "limits": {
-                    "$ref": "#/definitions/limits.Limits"
+                    "$ref": "#/definitions/github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Limits"
                 }
             }
         },
@@ -1028,6 +1239,14 @@ const docTemplate = `{
             "properties": {
                 "quota": {
                     "$ref": "#/definitions/quotas.Quota"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.GetVolumeLimitResponse": {
+            "type": "object",
+            "properties": {
+                "limits": {
+                    "$ref": "#/definitions/github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Limits"
                 }
             }
         },
@@ -1303,97 +1522,40 @@ const docTemplate = `{
                 }
             }
         },
-        "limits.Absolute": {
+        "limits.Limit": {
             "type": "object",
             "properties": {
-                "maxImageMeta": {
-                    "description": "MaxImageMeta is the amount of image metadata available to a tenant.",
+                "next-available": {
+                    "type": "string"
+                },
+                "remaining": {
                     "type": "integer"
                 },
-                "maxPersonality": {
-                    "description": "MaxPersonality is the amount of personality/files available to a tenant.",
+                "unit": {
+                    "type": "string"
+                },
+                "value": {
                     "type": "integer"
                 },
-                "maxPersonalitySize": {
-                    "description": "MaxPersonalitySize is the personality file size available to a tenant.",
-                    "type": "integer"
-                },
-                "maxSecurityGroupRules": {
-                    "description": "MaxSecurityGroupRules is the number of security group rules available to\na tenant.",
-                    "type": "integer"
-                },
-                "maxSecurityGroups": {
-                    "description": "MaxSecurityGroups is the number of security groups available to a tenant.",
-                    "type": "integer"
-                },
-                "maxServerGroupMembers": {
-                    "description": "MaxServerGroupMembers is the number of server group members available\nto a tenant.",
-                    "type": "integer"
-                },
-                "maxServerGroups": {
-                    "description": "MaxServerGroups is the number of server groups available to a tenant.",
-                    "type": "integer"
-                },
-                "maxServerMeta": {
-                    "description": "MaxServerMeta is the amount of server metadata available to a tenant.",
-                    "type": "integer"
-                },
-                "maxTotalCores": {
-                    "description": "MaxTotalCores is the number of cores available to a tenant.",
-                    "type": "integer"
-                },
-                "maxTotalFloatingIps": {
-                    "description": "MaxTotalFloatingIps is the number of floating IPs available to a tenant.",
-                    "type": "integer"
-                },
-                "maxTotalInstances": {
-                    "description": "MaxTotalInstances is the number of instances/servers available to a tenant.",
-                    "type": "integer"
-                },
-                "maxTotalKeypairs": {
-                    "description": "MaxTotalKeypairs is the total keypairs available to a tenant.",
-                    "type": "integer"
-                },
-                "maxTotalRAMSize": {
-                    "description": "MaxTotalRAMSize is the total amount of RAM available to a tenant measured\nin megabytes (MB).",
-                    "type": "integer"
-                },
-                "totalCoresUsed": {
-                    "description": "TotalCoresUsed is the number of cores currently in use.",
-                    "type": "integer"
-                },
-                "totalFloatingIpsUsed": {
-                    "description": "TotalFloatingIpsUsed is the number of floating IPs in use.",
-                    "type": "integer"
-                },
-                "totalInstancesUsed": {
-                    "description": "TotalInstancesUsed is the number of instances/servers in use.",
-                    "type": "integer"
-                },
-                "totalRAMUsed": {
-                    "description": "TotalRAMUsed is the total RAM/memory in use measured in megabytes (MB).",
-                    "type": "integer"
-                },
-                "totalSecurityGroupsUsed": {
-                    "description": "TotalSecurityGroupsUsed is the total number of security groups in use.",
-                    "type": "integer"
-                },
-                "totalServerGroupsUsed": {
-                    "description": "TotalServerGroupsUsed is the total number of server groups in use.",
-                    "type": "integer"
+                "verb": {
+                    "type": "string"
                 }
             }
         },
-        "limits.Limits": {
+        "limits.Rate": {
             "type": "object",
             "properties": {
-                "absolute": {
-                    "description": "Absolute contains the limits and usage information.",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/limits.Absolute"
-                        }
-                    ]
+                "limit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/limits.Limit"
+                    }
+                },
+                "regex": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
                 }
             }
         },

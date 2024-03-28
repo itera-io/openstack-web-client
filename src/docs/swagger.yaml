@@ -26,6 +26,140 @@ definitions:
         description: The name of the availability zone.
         type: string
     type: object
+  github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute:
+    properties:
+      maxTotalBackupGigabytes:
+        description: MaxTotalBackupGigabytes is the maximum total amount of backups,
+          in gibibytes (GiB).
+        type: integer
+      maxTotalBackups:
+        description: MaxTotalBackups is the maximum number of backups.
+        type: integer
+      maxTotalSnapshots:
+        description: MaxTotalSnapshots is the maximum number of snapshots.
+        type: integer
+      maxTotalVolumeGigabytes:
+        description: MaxTotalVolumeGigabytes is the maximum total amount of volumes,
+          in gibibytes (GiB).
+        type: integer
+      maxTotalVolumes:
+        description: MaxTotalVolumes is the maximum number of volumes.
+        type: integer
+      totalBackupGigabytesUsed:
+        description: TotalBackupGigabytesUsed is the total number of backups gibibytes
+          (GiB) used.
+        type: integer
+      totalBackupsUsed:
+        description: TotalBackupsUsed is the total number of backups used.
+        type: integer
+      totalGigabytesUsed:
+        description: TotalGigabytesUsed is the total number of gibibytes (GiB) used.
+        type: integer
+      totalSnapshotsUsed:
+        description: TotalSnapshotsUsed the total number of snapshots used.
+        type: integer
+      totalVolumesUsed:
+        description: TotalVolumesUsed is the total number of volumes used.
+        type: integer
+    type: object
+  github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Limits:
+    properties:
+      absolute:
+        allOf:
+        - $ref: '#/definitions/github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute'
+        description: |-
+          Absolute contains the limits and usage information.
+          An absolute limit value of -1 indicates that the absolute limit for the item is infinite.
+      rate:
+        description: Rate contains rate-limit volume copy bandwidth, used to mitigate
+          slow down of data access from the instances.
+        items:
+          $ref: '#/definitions/limits.Rate'
+        type: array
+    type: object
+  github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Absolute:
+    properties:
+      maxImageMeta:
+        description: MaxImageMeta is the amount of image metadata available to a tenant.
+        type: integer
+      maxPersonality:
+        description: MaxPersonality is the amount of personality/files available to
+          a tenant.
+        type: integer
+      maxPersonalitySize:
+        description: MaxPersonalitySize is the personality file size available to
+          a tenant.
+        type: integer
+      maxSecurityGroupRules:
+        description: |-
+          MaxSecurityGroupRules is the number of security group rules available to
+          a tenant.
+        type: integer
+      maxSecurityGroups:
+        description: MaxSecurityGroups is the number of security groups available
+          to a tenant.
+        type: integer
+      maxServerGroupMembers:
+        description: |-
+          MaxServerGroupMembers is the number of server group members available
+          to a tenant.
+        type: integer
+      maxServerGroups:
+        description: MaxServerGroups is the number of server groups available to a
+          tenant.
+        type: integer
+      maxServerMeta:
+        description: MaxServerMeta is the amount of server metadata available to a
+          tenant.
+        type: integer
+      maxTotalCores:
+        description: MaxTotalCores is the number of cores available to a tenant.
+        type: integer
+      maxTotalFloatingIps:
+        description: MaxTotalFloatingIps is the number of floating IPs available to
+          a tenant.
+        type: integer
+      maxTotalInstances:
+        description: MaxTotalInstances is the number of instances/servers available
+          to a tenant.
+        type: integer
+      maxTotalKeypairs:
+        description: MaxTotalKeypairs is the total keypairs available to a tenant.
+        type: integer
+      maxTotalRAMSize:
+        description: |-
+          MaxTotalRAMSize is the total amount of RAM available to a tenant measured
+          in megabytes (MB).
+        type: integer
+      totalCoresUsed:
+        description: TotalCoresUsed is the number of cores currently in use.
+        type: integer
+      totalFloatingIpsUsed:
+        description: TotalFloatingIpsUsed is the number of floating IPs in use.
+        type: integer
+      totalInstancesUsed:
+        description: TotalInstancesUsed is the number of instances/servers in use.
+        type: integer
+      totalRAMUsed:
+        description: TotalRAMUsed is the total RAM/memory in use measured in megabytes
+          (MB).
+        type: integer
+      totalSecurityGroupsUsed:
+        description: TotalSecurityGroupsUsed is the total number of security groups
+          in use.
+        type: integer
+      totalServerGroupsUsed:
+        description: TotalServerGroupsUsed is the total number of server groups in
+          use.
+        type: integer
+    type: object
+  github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Limits:
+    properties:
+      absolute:
+        allOf:
+        - $ref: '#/definitions/github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Absolute'
+        description: Absolute contains the limits and usage information.
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
     properties:
       applicationCredentialID:
@@ -80,7 +214,7 @@ definitions:
   github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse:
     properties:
       limits:
-        $ref: '#/definitions/limits.Limits'
+        $ref: '#/definitions/github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Limits'
     type: object
   github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse:
     properties:
@@ -105,6 +239,11 @@ definitions:
     properties:
       quota:
         $ref: '#/definitions/quotas.Quota'
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.GetVolumeLimitResponse:
+    properties:
+      limits:
+        $ref: '#/definitions/github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Limits'
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ImageDto:
     properties:
@@ -298,88 +437,29 @@ definitions:
       value:
         type: string
     type: object
-  limits.Absolute:
+  limits.Limit:
     properties:
-      maxImageMeta:
-        description: MaxImageMeta is the amount of image metadata available to a tenant.
+      next-available:
+        type: string
+      remaining:
         type: integer
-      maxPersonality:
-        description: MaxPersonality is the amount of personality/files available to
-          a tenant.
+      unit:
+        type: string
+      value:
         type: integer
-      maxPersonalitySize:
-        description: MaxPersonalitySize is the personality file size available to
-          a tenant.
-        type: integer
-      maxSecurityGroupRules:
-        description: |-
-          MaxSecurityGroupRules is the number of security group rules available to
-          a tenant.
-        type: integer
-      maxSecurityGroups:
-        description: MaxSecurityGroups is the number of security groups available
-          to a tenant.
-        type: integer
-      maxServerGroupMembers:
-        description: |-
-          MaxServerGroupMembers is the number of server group members available
-          to a tenant.
-        type: integer
-      maxServerGroups:
-        description: MaxServerGroups is the number of server groups available to a
-          tenant.
-        type: integer
-      maxServerMeta:
-        description: MaxServerMeta is the amount of server metadata available to a
-          tenant.
-        type: integer
-      maxTotalCores:
-        description: MaxTotalCores is the number of cores available to a tenant.
-        type: integer
-      maxTotalFloatingIps:
-        description: MaxTotalFloatingIps is the number of floating IPs available to
-          a tenant.
-        type: integer
-      maxTotalInstances:
-        description: MaxTotalInstances is the number of instances/servers available
-          to a tenant.
-        type: integer
-      maxTotalKeypairs:
-        description: MaxTotalKeypairs is the total keypairs available to a tenant.
-        type: integer
-      maxTotalRAMSize:
-        description: |-
-          MaxTotalRAMSize is the total amount of RAM available to a tenant measured
-          in megabytes (MB).
-        type: integer
-      totalCoresUsed:
-        description: TotalCoresUsed is the number of cores currently in use.
-        type: integer
-      totalFloatingIpsUsed:
-        description: TotalFloatingIpsUsed is the number of floating IPs in use.
-        type: integer
-      totalInstancesUsed:
-        description: TotalInstancesUsed is the number of instances/servers in use.
-        type: integer
-      totalRAMUsed:
-        description: TotalRAMUsed is the total RAM/memory in use measured in megabytes
-          (MB).
-        type: integer
-      totalSecurityGroupsUsed:
-        description: TotalSecurityGroupsUsed is the total number of security groups
-          in use.
-        type: integer
-      totalServerGroupsUsed:
-        description: TotalServerGroupsUsed is the total number of server groups in
-          use.
-        type: integer
+      verb:
+        type: string
     type: object
-  limits.Limits:
+  limits.Rate:
     properties:
-      absolute:
-        allOf:
-        - $ref: '#/definitions/limits.Absolute'
-        description: Absolute contains the limits and usage information.
+      limit:
+        items:
+          $ref: '#/definitions/limits.Limit'
+        type: array
+      regex:
+        type: string
+      uri:
+        type: string
     type: object
   quotas.Quota:
     properties:
@@ -927,6 +1007,36 @@ paths:
       summary: List UserProject
       tags:
       - UserProjects
+  /v3/volume/limits:
+    get:
+      consumes:
+      - application/json
+      description: Get Volume Limits
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetVolumeLimits response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetVolumeLimitResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Volume Limits
+      tags:
+      - VolumeLimits
   /v3/volumetypes:
     get:
       consumes:
