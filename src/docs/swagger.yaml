@@ -251,6 +251,11 @@ definitions:
       quota:
         $ref: '#/definitions/quotas.Quota'
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.GetServerResponse:
+    properties:
+      server:
+        $ref: '#/definitions/servers.Server'
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.GetVolumeLimitResponse:
     properties:
       limits:
@@ -586,6 +591,135 @@ definitions:
       trunk:
         description: Trunk represents a number of trunks. A "-1" value means no limit.
         type: integer
+    type: object
+  servers.AttachedVolume:
+    properties:
+      id:
+        type: string
+    type: object
+  servers.Fault:
+    properties:
+      code:
+        type: integer
+      created:
+        type: string
+      details:
+        type: string
+      message:
+        type: string
+    type: object
+  servers.Server:
+    properties:
+      accessIPv4:
+        description: |-
+          AccessIPv4 and AccessIPv6 contain the IP addresses of the server,
+          suitable for remote access for administration.
+        type: string
+      accessIPv6:
+        type: string
+      addresses:
+        additionalProperties: true
+        description: |-
+          Addresses includes a list of all IP addresses assigned to the server,
+          keyed by pool.
+        type: object
+      adminPass:
+        description: |-
+          AdminPass will generally be empty ("").  However, it will contain the
+          administrative password chosen when provisioning a new server without a
+          set AdminPass setting in the first place.
+          Note that this is the ONLY time this field will be valid.
+        type: string
+      created:
+        type: string
+      fault:
+        allOf:
+        - $ref: '#/definitions/servers.Fault'
+        description: Fault contains failure information about a server.
+      flavor:
+        additionalProperties: true
+        description: |-
+          Flavor refers to a JSON object, which itself indicates the hardware
+          configuration of the deployed server.
+        type: object
+      hostid:
+        description: HostID is the host where the server is located in the cloud.
+        type: string
+      id:
+        description: |-
+          ID uniquely identifies this server amongst all other servers,
+          including those not accessible to the current tenant.
+        type: string
+      key_name:
+        description: KeyName indicates which public key was injected into the server
+          on launch.
+        type: string
+      links:
+        description: |-
+          Links includes HTTP references to the itself, useful for passing along to
+          other APIs that might want a server reference.
+        items: {}
+        type: array
+      metadata:
+        additionalProperties:
+          type: string
+        description: |-
+          Metadata includes a list of all user-specified key-value pairs attached
+          to the server.
+        type: object
+      name:
+        description: Name contains the human-readable name for the server.
+        type: string
+      os-extended-volumes:volumes_attached:
+        description: AttachedVolumes includes the volume attachments of this instance
+        items:
+          $ref: '#/definitions/servers.AttachedVolume'
+        type: array
+      progress:
+        description: |-
+          Progress ranges from 0..100.
+          A request made against the server completes only once Progress reaches 100.
+        type: integer
+      security_groups:
+        description: |-
+          SecurityGroups includes the security groups that this instance has applied
+          to it.
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      server_groups:
+        description: |-
+          ServerGroups is a slice of strings containing the UUIDs of the
+          server groups to which the server belongs. Currently this can
+          contain at most one entry.
+          New in microversion 2.71
+        items:
+          type: string
+        type: array
+      status:
+        description: |-
+          Status contains the current operational status of the server,
+          such as IN_PROGRESS or ACTIVE.
+        type: string
+      tags:
+        description: |-
+          Tags is a slice/list of string tags in a server.
+          The requires microversion 2.26 or later.
+        items:
+          type: string
+        type: array
+      tenant_id:
+        description: TenantID identifies the tenant owning this server resource.
+        type: string
+      updated:
+        description: |-
+          Updated and Created contain ISO-8601 timestamps of when the state of the
+          server last changed, and when it was created.
+        type: string
+      user_id:
+        description: UserID uniquely identifies the user account owning the tenant.
+        type: string
     type: object
   subnets.AllocationPool:
     properties:
@@ -1148,6 +1282,42 @@ paths:
       summary: List Network Subnets
       tags:
       - NetworkSubnets
+  /v2/servers/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Server by ID
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetServer response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetServerResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Server
+      tags:
+      - Servers
   /v3/Projects:
     get:
       consumes:

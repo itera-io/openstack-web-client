@@ -71,6 +71,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.ComputeLimits(computeLimits, cfg)
 		networkquotas := v2.Group("/networking", middlewares.Authentication(cfg))
 		routers.Networking(networkquotas, cfg)
+		server := v2.Group("/servers", middlewares.Authentication(cfg))
+		routers.Server(server, cfg)
 	}
 	v3 := api.Group("/v3")
 	{
