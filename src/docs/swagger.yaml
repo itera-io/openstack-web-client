@@ -340,6 +340,15 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageListItem'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListNetworkRequest:
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListNetworkResponse:
+    properties:
+      networks:
+        items:
+          $ref: '#/definitions/networks.Network'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest:
     properties:
       projectId:
@@ -471,6 +480,59 @@ definitions:
       regex:
         type: string
       uri:
+        type: string
+    type: object
+  networks.Network:
+    properties:
+      admin_state_up:
+        description: |-
+          The administrative state of network. If false (down), the network does not
+          forward packets.
+        type: boolean
+      availability_zone_hints:
+        description: |-
+          Availability zone hints groups network nodes that run services like DHCP, L3, FW, and others.
+          Used to make network resources highly available.
+        items:
+          type: string
+        type: array
+      description:
+        description: Description for the network
+        type: string
+      id:
+        description: UUID for the network
+        type: string
+      name:
+        description: Human-readable name for the network. Might not be unique.
+        type: string
+      project_id:
+        description: ProjectID is the project owner of the network.
+        type: string
+      revision_number:
+        description: RevisionNumber optionally set via extensions/standard-attr-revisions
+        type: integer
+      shared:
+        description: Specifies whether the network resource can be accessed by any
+          tenant.
+        type: boolean
+      status:
+        description: |-
+          Indicates whether network is currently operational. Possible values include
+          `ACTIVE', `DOWN', `BUILD', or `ERROR'. Plug-ins might define additional
+          values.
+        type: string
+      subnets:
+        description: Subnets associated with this network.
+        items:
+          type: string
+        type: array
+      tags:
+        description: Tags optionally set via extensions/attributestags
+        items:
+          type: string
+        type: array
+      tenant_id:
+        description: TenantID is the project owner of the network.
         type: string
     type: object
   quotas.Quota:
@@ -964,6 +1026,43 @@ paths:
       summary: Get Image
       tags:
       - Images
+  /v2/networking/networks:
+    get:
+      consumes:
+      - application/json
+      description: List Networks
+      parameters:
+      - description: ListNetwork Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListNetwork response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Networks
+      tags:
+      - Networks
   /v2/networking/quotas:
     get:
       consumes:

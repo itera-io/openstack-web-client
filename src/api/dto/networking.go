@@ -2,6 +2,7 @@ package dto
 
 import (
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/quotas"
+	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
 )
 
@@ -19,4 +20,10 @@ type ListNetworkSubnetRequest struct {
 
 type ListNetworkSubnetResponse struct {
 	Subnets []subnets.Subnet `json:"subnets"`
+}
+
+type ListNetworkRequest struct{}
+
+type ListNetworkResponse struct {
+	Networks []networks.Network `json:"networks"`
 }

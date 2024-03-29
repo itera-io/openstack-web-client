@@ -11,4 +11,5 @@ func Networking(router *gin.RouterGroup, cfg *config.Config) {
 
 	router.GET("/quotas", h.GetQuotas)
 	router.GET("/subnets", h.GetSubnets)
+	router.GET("/networks", h.GetNetworks)
 }

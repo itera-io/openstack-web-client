@@ -48,3 +48,19 @@ func (h *NetworkingHandler) GetQuotas(c *gin.Context) {
 func (h *NetworkingHandler) GetSubnets(c *gin.Context) {
 	GetByFilter(c, h.service.GetSubnets)
 }
+
+// ListNetworks godoc
+// @Summary List Networks
+// @Description List Networks
+// @Tags Networks
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.ListNetworkRequest true "ListNetwork Request"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.ListNetworkResponse} "ListNetwork response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/networking/networks [get]
+// @Security AuthBearer
+func (h *NetworkingHandler) GetNetworks(c *gin.Context) {
+	GetByFilter(c, h.service.GetNetworks)
+}

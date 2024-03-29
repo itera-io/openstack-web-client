@@ -562,6 +562,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/networking/networks": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Networks",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Networks"
+                ],
+                "summary": "List Networks",
+                "parameters": [
+                    {
+                        "description": "ListNetwork Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListNetwork response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/networking/quotas": {
             "get": {
                 "security": [
@@ -1447,6 +1510,20 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListNetworkRequest": {
+            "type": "object"
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListNetworkResponse": {
+            "type": "object",
+            "properties": {
+                "networks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/networks.Network"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest": {
             "type": "object",
             "properties": {
@@ -1637,6 +1714,68 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "networks.Network": {
+            "type": "object",
+            "properties": {
+                "admin_state_up": {
+                    "description": "The administrative state of network. If false (down), the network does not\nforward packets.",
+                    "type": "boolean"
+                },
+                "availability_zone_hints": {
+                    "description": "Availability zone hints groups network nodes that run services like DHCP, L3, FW, and others.\nUsed to make network resources highly available.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "description": "Description for the network",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "UUID for the network",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Human-readable name for the network. Might not be unique.",
+                    "type": "string"
+                },
+                "project_id": {
+                    "description": "ProjectID is the project owner of the network.",
+                    "type": "string"
+                },
+                "revision_number": {
+                    "description": "RevisionNumber optionally set via extensions/standard-attr-revisions",
+                    "type": "integer"
+                },
+                "shared": {
+                    "description": "Specifies whether the network resource can be accessed by any tenant.",
+                    "type": "boolean"
+                },
+                "status": {
+                    "description": "Indicates whether network is currently operational. Possible values include\n` + "`" + `ACTIVE', ` + "`" + `DOWN', ` + "`" + `BUILD', or ` + "`" + `ERROR'. Plug-ins might define additional\nvalues.",
+                    "type": "string"
+                },
+                "subnets": {
+                    "description": "Subnets associated with this network.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "description": "Tags optionally set via extensions/attributestags",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "description": "TenantID is the project owner of the network.",
                     "type": "string"
                 }
             }
