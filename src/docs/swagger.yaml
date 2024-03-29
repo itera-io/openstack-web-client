@@ -340,6 +340,18 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ImageListItem'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest:
+    properties:
+      projectId:
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetResponse:
+    properties:
+      subnets:
+        items:
+          $ref: '#/definitions/subnets.Subnet'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse:
@@ -501,6 +513,98 @@ definitions:
       trunk:
         description: Trunk represents a number of trunks. A "-1" value means no limit.
         type: integer
+    type: object
+  subnets.AllocationPool:
+    properties:
+      end:
+        type: string
+      start:
+        type: string
+    type: object
+  subnets.HostRoute:
+    properties:
+      destination:
+        type: string
+      nexthop:
+        type: string
+    type: object
+  subnets.Subnet:
+    properties:
+      allocation_pools:
+        description: |-
+          Sub-ranges of CIDR available for dynamic allocation to ports.
+          See AllocationPool.
+        items:
+          $ref: '#/definitions/subnets.AllocationPool'
+        type: array
+      cidr:
+        description: CIDR representing IP range for this subnet, based on IP version.
+        type: string
+      description:
+        description: Description for the subnet.
+        type: string
+      dns_nameservers:
+        description: DNS name servers used by hosts in this subnet.
+        items:
+          type: string
+        type: array
+      enable_dhcp:
+        description: Specifies whether DHCP is enabled for this subnet or not.
+        type: boolean
+      gateway_ip:
+        description: Default gateway used by devices in this subnet.
+        type: string
+      host_routes:
+        description: |-
+          Routes that should be used by devices with IPs from this subnet
+          (not including local subnet route).
+        items:
+          $ref: '#/definitions/subnets.HostRoute'
+        type: array
+      id:
+        description: UUID representing the subnet.
+        type: string
+      ip_version:
+        description: IP version, either `4' or `6'.
+        type: integer
+      ipv6_address_mode:
+        description: The IPv6 address modes specifies mechanisms for assigning IPv6
+          IP addresses.
+        type: string
+      ipv6_ra_mode:
+        description: |-
+          The IPv6 router advertisement specifies whether the networking service
+          should transmit ICMPv6 packets.
+        type: string
+      name:
+        description: Human-readable name for the subnet. Might not be unique.
+        type: string
+      network_id:
+        description: UUID of the parent network.
+        type: string
+      project_id:
+        description: ProjectID is the project owner of the subnet.
+        type: string
+      revision_number:
+        description: RevisionNumber optionally set via extensions/standard-attr-revisions
+        type: integer
+      service_types:
+        description: Service types associated with the subnet.
+        items:
+          type: string
+        type: array
+      subnetpool_id:
+        description: SubnetPoolID is the id of the subnet pool associated with the
+          subnet.
+        type: string
+      tags:
+        description: Tags optionally set via extensions/attributestags
+        items:
+          type: string
+        type: array
+      tenant_id:
+        description: TenantID is the project owner of the subnet.
+        type: string
     type: object
   volumetypes.VolumeType:
     properties:
@@ -897,6 +1001,43 @@ paths:
       summary: Get Network Quotas
       tags:
       - NetworkQuotas
+  /v2/networking/subnets:
+    get:
+      consumes:
+      - application/json
+      description: List Network Subnets
+      parameters:
+      - description: ListNetworkSubnet Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListNetworkSubnet response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Network Subnets
+      tags:
+      - NetworkSubnets
   /v3/Projects:
     get:
       consumes:

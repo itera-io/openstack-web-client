@@ -614,6 +614,69 @@
                 }
             }
         },
+        "/v2/networking/subnets": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Network Subnets",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NetworkSubnets"
+                ],
+                "summary": "List Network Subnets",
+                "parameters": [
+                    {
+                        "description": "ListNetworkSubnet Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListNetworkSubnet response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/Projects": {
             "get": {
                 "security": [
@@ -1373,6 +1436,25 @@
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetRequest": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListNetworkSubnetResponse": {
+            "type": "object",
+            "properties": {
+                "subnets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/subnets.Subnet"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListProjectRequest": {
             "type": "object"
         },
@@ -1590,6 +1672,124 @@
                 "trunk": {
                     "description": "Trunk represents a number of trunks. A \"-1\" value means no limit.",
                     "type": "integer"
+                }
+            }
+        },
+        "subnets.AllocationPool": {
+            "type": "object",
+            "properties": {
+                "end": {
+                    "type": "string"
+                },
+                "start": {
+                    "type": "string"
+                }
+            }
+        },
+        "subnets.HostRoute": {
+            "type": "object",
+            "properties": {
+                "destination": {
+                    "type": "string"
+                },
+                "nexthop": {
+                    "type": "string"
+                }
+            }
+        },
+        "subnets.Subnet": {
+            "type": "object",
+            "properties": {
+                "allocation_pools": {
+                    "description": "Sub-ranges of CIDR available for dynamic allocation to ports.\nSee AllocationPool.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/subnets.AllocationPool"
+                    }
+                },
+                "cidr": {
+                    "description": "CIDR representing IP range for this subnet, based on IP version.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Description for the subnet.",
+                    "type": "string"
+                },
+                "dns_nameservers": {
+                    "description": "DNS name servers used by hosts in this subnet.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "enable_dhcp": {
+                    "description": "Specifies whether DHCP is enabled for this subnet or not.",
+                    "type": "boolean"
+                },
+                "gateway_ip": {
+                    "description": "Default gateway used by devices in this subnet.",
+                    "type": "string"
+                },
+                "host_routes": {
+                    "description": "Routes that should be used by devices with IPs from this subnet\n(not including local subnet route).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/subnets.HostRoute"
+                    }
+                },
+                "id": {
+                    "description": "UUID representing the subnet.",
+                    "type": "string"
+                },
+                "ip_version": {
+                    "description": "IP version, either `4' or `6'.",
+                    "type": "integer"
+                },
+                "ipv6_address_mode": {
+                    "description": "The IPv6 address modes specifies mechanisms for assigning IPv6 IP addresses.",
+                    "type": "string"
+                },
+                "ipv6_ra_mode": {
+                    "description": "The IPv6 router advertisement specifies whether the networking service\nshould transmit ICMPv6 packets.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Human-readable name for the subnet. Might not be unique.",
+                    "type": "string"
+                },
+                "network_id": {
+                    "description": "UUID of the parent network.",
+                    "type": "string"
+                },
+                "project_id": {
+                    "description": "ProjectID is the project owner of the subnet.",
+                    "type": "string"
+                },
+                "revision_number": {
+                    "description": "RevisionNumber optionally set via extensions/standard-attr-revisions",
+                    "type": "integer"
+                },
+                "service_types": {
+                    "description": "Service types associated with the subnet.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subnetpool_id": {
+                    "description": "SubnetPoolID is the id of the subnet pool associated with the subnet.",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "Tags optionally set via extensions/attributestags",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "description": "TenantID is the project owner of the subnet.",
+                    "type": "string"
                 }
             }
         },
