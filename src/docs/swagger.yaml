@@ -26,6 +26,41 @@ definitions:
         description: The name of the availability zone.
         type: string
     type: object
+  flavors.Flavor:
+    properties:
+      OS-FLV-EXT-DATA:ephemeral:
+        description: Ephemeral is the amount of ephemeral disk space, measured in
+          GB.
+        type: integer
+      description:
+        description: |-
+          Description is a free form description of the flavor. Limited to
+          65535 characters in length. Only printable characters are allowed.
+          New in version 2.55
+        type: string
+      disk:
+        description: Disk is the amount of root disk, measured in GB.
+        type: integer
+      id:
+        description: ID is the flavor's unique ID.
+        type: string
+      name:
+        description: Name is the name of the flavor.
+        type: string
+      os-flavor-access:is_public:
+        description: IsPublic indicates whether the flavor is public.
+        type: boolean
+      ram:
+        description: RAM is the amount of memory, measured in MB.
+        type: integer
+      rxtx_factor:
+        description: RxTxFactor describes bandwidth alterations of the flavor.
+        type: number
+      vcpus:
+        description: VCPUs indicates how many (virtual) CPUs are available for this
+          flavor.
+        type: integer
+    type: object
   github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute:
     properties:
       maxTotalBackupGigabytes:
@@ -189,28 +224,6 @@ definitions:
       name:
         type: string
     type: object
-  github_com_itera-io_openstack-web-client_api_dto.FlavorDto:
-    properties:
-      disk:
-        description: Disk is the amount of root disk, measured in GB.
-        type: integer
-      id:
-        description: ID is the flavor's unique ID.
-        type: string
-      name:
-        description: Name is the name of the flavor.
-        type: string
-      os-flavor-access:is_public:
-        description: IsPublic indicates whether the flavor is public.
-        type: boolean
-      ram:
-        description: RAM is the amount of memory, measured in MB.
-        type: integer
-      vcpus:
-        description: VCPUs indicates how many (virtual) CPUs are available for this
-          flavor.
-        type: integer
-    type: object
   github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse:
     properties:
       limits:
@@ -219,9 +232,7 @@ definitions:
   github_com_itera-io_openstack-web-client_api_dto.GetFlavorResponse:
     properties:
       flavor:
-        items:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto'
-        type: array
+        $ref: '#/definitions/flavors.Flavor'
     type: object
   github_com_itera-io_openstack-web-client_api_dto.GetImageResponse:
     properties:
@@ -313,7 +324,7 @@ definitions:
     properties:
       flavors:
         items:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto'
+          $ref: '#/definitions/flavors.Flavor'
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListImageRequest:

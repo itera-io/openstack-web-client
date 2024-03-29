@@ -1093,6 +1093,47 @@ const docTemplate = `{
                 }
             }
         },
+        "flavors.Flavor": {
+            "type": "object",
+            "properties": {
+                "OS-FLV-EXT-DATA:ephemeral": {
+                    "description": "Ephemeral is the amount of ephemeral disk space, measured in GB.",
+                    "type": "integer"
+                },
+                "description": {
+                    "description": "Description is a free form description of the flavor. Limited to\n65535 characters in length. Only printable characters are allowed.\nNew in version 2.55",
+                    "type": "string"
+                },
+                "disk": {
+                    "description": "Disk is the amount of root disk, measured in GB.",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID is the flavor's unique ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name is the name of the flavor.",
+                    "type": "string"
+                },
+                "os-flavor-access:is_public": {
+                    "description": "IsPublic indicates whether the flavor is public.",
+                    "type": "boolean"
+                },
+                "ram": {
+                    "description": "RAM is the amount of memory, measured in MB.",
+                    "type": "integer"
+                },
+                "rxtx_factor": {
+                    "description": "RxTxFactor describes bandwidth alterations of the flavor.",
+                    "type": "number"
+                },
+                "vcpus": {
+                    "description": "VCPUs indicates how many (virtual) CPUs are available for this flavor.",
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_gophercloud_gophercloud_openstack_blockstorage_extensions_limits.Absolute": {
             "type": "object",
             "properties": {
@@ -1293,35 +1334,6 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_itera-io_openstack-web-client_api_dto.FlavorDto": {
-            "type": "object",
-            "properties": {
-                "disk": {
-                    "description": "Disk is the amount of root disk, measured in GB.",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "ID is the flavor's unique ID.",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name is the name of the flavor.",
-                    "type": "string"
-                },
-                "os-flavor-access:is_public": {
-                    "description": "IsPublic indicates whether the flavor is public.",
-                    "type": "boolean"
-                },
-                "ram": {
-                    "description": "RAM is the amount of memory, measured in MB.",
-                    "type": "integer"
-                },
-                "vcpus": {
-                    "description": "VCPUs indicates how many (virtual) CPUs are available for this flavor.",
-                    "type": "integer"
-                }
-            }
-        },
         "github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse": {
             "type": "object",
             "properties": {
@@ -1334,10 +1346,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "flavor": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto"
-                    }
+                    "$ref": "#/definitions/flavors.Flavor"
                 }
             }
         },
@@ -1474,7 +1483,7 @@ const docTemplate = `{
                 "flavors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.FlavorDto"
+                        "$ref": "#/definitions/flavors.Flavor"
                     }
                 }
             }

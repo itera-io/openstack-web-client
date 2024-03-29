@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/compute"
 )
 
 type FlavorsHandler struct {
-	service *services.FlavorService
+	service *compute.Service
 }
 
 func NewFlavorsHandler(cfg *config.Config) *FlavorsHandler {
-	service := services.NewFlavorService(cfg)
+	service := compute.NewService(cfg)
 	return &FlavorsHandler{service: service}
 }
 
