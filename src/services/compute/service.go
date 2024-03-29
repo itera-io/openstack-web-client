@@ -29,7 +29,7 @@ func (s *Service) newNewComputeV2(authUtils *dto.AuthUtils) (*gophercloud.Servic
 		return nil, err
 	}
 
-	client, err := openstack.NewBlockStorageV3(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to create compute V2 client", nil)
 		return nil, err
