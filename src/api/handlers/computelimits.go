@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/compute"
 )
 
 type ComputeLimitsHandler struct {
-	service *services.ComputeLimitService
+	service *compute.Service
 }
 
 func NewComputeLimitsHandler(cfg *config.Config) *ComputeLimitsHandler {
-	service := services.NewComputeLimitService(cfg)
+	service := compute.NewService(cfg)
 	return &ComputeLimitsHandler{service: service}
 }
 
