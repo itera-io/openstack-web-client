@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/volume"
 )
 
 type VolumeTypesHandler struct {
-	service *services.VolumeTypeService
+	service *volume.Service
 }
 
 func NewVolumeTypesHandler(cfg *config.Config) *VolumeTypesHandler {
-	service := services.NewVolumeTypeService(cfg)
+	service := volume.NewService(cfg)
 	return &VolumeTypesHandler{service: service}
 }
 
@@ -30,5 +30,5 @@ func NewVolumeTypesHandler(cfg *config.Config) *VolumeTypesHandler {
 // @Router /v3/volumetypes [get]
 // @Security AuthBearer
 func (h *VolumeTypesHandler) List(c *gin.Context) {
-	GetByFilter(c, h.service.List)
+	GetByFilter(c, h.service.ListTypes)
 }

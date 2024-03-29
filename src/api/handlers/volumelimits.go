@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/volume"
 )
 
 type VolumeLimitsHandler struct {
-	service *services.VolumeLimitService
+	service *volume.Service
 }
 
 func NewVolumeLimitsHandler(cfg *config.Config) *VolumeLimitsHandler {
-	service := services.NewVolumeLimitService(cfg)
+	service := volume.NewService(cfg)
 	return &VolumeLimitsHandler{service: service}
 }
 
