@@ -27,3 +27,7 @@ type CreateProjectRequest struct {
 	// Tags is a list of tags to associate with the project.
 	Tags []string `json:"tags,omitempty"`
 }
+
+type CreateProjectResponse struct {
+	Project projects.Project `json:"project"`
+}

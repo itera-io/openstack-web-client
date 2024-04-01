@@ -224,6 +224,40 @@ definitions:
       name:
         type: string
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.CreateProjectRequest:
+    properties:
+      description:
+        minLength: 6
+        type: string
+      domain_id:
+        description: DomainID is the ID this project will belong under.
+        type: string
+      enabled:
+        description: Enabled sets the project status to enabled or disabled.
+        type: boolean
+      is_domain:
+        description: IsDomain indicates if this project is a domain.
+        type: boolean
+      name:
+        minLength: 3
+        type: string
+      parent_id:
+        description: ParentID specifies the parent project of this new project.
+        type: string
+      tags:
+        description: Tags is a list of tags to associate with the project.
+        items:
+          type: string
+        type: array
+    required:
+    - description
+    - name
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.CreateProjectResponse:
+    properties:
+      project:
+        $ref: '#/definitions/projects.Project'
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse:
     properties:
       limits:
@@ -1351,7 +1385,7 @@ paths:
       summary: Get Server
       tags:
       - Servers
-  /v3/Projects:
+  /v3/projects:
     get:
       consumes:
       - application/json
@@ -1386,6 +1420,42 @@ paths:
       security:
       - AuthBearer: []
       summary: List Project
+      tags:
+      - Projects
+    post:
+      consumes:
+      - application/json
+      description: Create Project
+      parameters:
+      - description: CreateProjectRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: CreateProject response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateProjectResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create Project
       tags:
       - Projects
   /v3/regions:

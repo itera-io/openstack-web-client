@@ -10,4 +10,5 @@ func Project(router *gin.RouterGroup, cfg *config.Config) {
 	h := handlers.NewProjectsHandler(cfg)
 
 	router.GET("/", h.ListProjects)
+	router.POST("/", h.CreateProject)
 }

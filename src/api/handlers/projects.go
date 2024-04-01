@@ -27,8 +27,24 @@ func NewProjectsHandler(cfg *config.Config) *ProjectsHandler {
 // @Success 200 {object} helper.BaseHttpResponse{result=dto.ListProjectResponse} "ListProject response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
-// @Router /v3/Projects [get]
+// @Router /v3/projects [get]
 // @Security AuthBearer
 func (h *ProjectsHandler) ListProjects(c *gin.Context) {
 	GetByFilter(c, h.service.ListProjects)
+}
+
+// CreateProject godoc
+// @Summary Create Project
+// @Description Create Project
+// @Tags Projects
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.CreateProjectRequest true "CreateProjectRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.CreateProjectResponse} "CreateProject response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v3/projects [post]
+// @Security AuthBearer
+func (h *ProjectsHandler) CreateProject(c *gin.Context) {
+	CreateByAuth(c, h.service.CreateProject)
 }

@@ -801,7 +801,7 @@
                 }
             }
         },
-        "/v3/Projects": {
+        "/v3/projects": {
             "get": {
                 "security": [
                     {
@@ -843,6 +843,67 @@
                                     "properties": {
                                         "result": {
                                             "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListProjectResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create Project",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Create Project",
+                "parameters": [
+                    {
+                        "description": "CreateProjectRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateProjectRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CreateProject response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateProjectResponse"
                                         }
                                     }
                                 }
@@ -1381,6 +1442,54 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.CreateProjectRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "domain_id": {
+                    "description": "DomainID is the ID this project will belong under.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enabled sets the project status to enabled or disabled.",
+                    "type": "boolean"
+                },
+                "is_domain": {
+                    "description": "IsDomain indicates if this project is a domain.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "parent_id": {
+                    "description": "ParentID specifies the parent project of this new project.",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "Tags is a list of tags to associate with the project.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.CreateProjectResponse": {
+            "type": "object",
+            "properties": {
+                "project": {
+                    "$ref": "#/definitions/projects.Project"
                 }
             }
         },
