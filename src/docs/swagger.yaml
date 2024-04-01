@@ -383,7 +383,7 @@ definitions:
     properties:
       projects:
         items:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
+          $ref: '#/definitions/projects.Project'
         type: array
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest:
@@ -550,6 +550,39 @@ definitions:
       tenant_id:
         description: TenantID is the project owner of the network.
         type: string
+    type: object
+  projects.Project:
+    properties:
+      description:
+        description: Description is the description of the project.
+        type: string
+      domain_id:
+        description: DomainID is the domain ID the project belongs to.
+        type: string
+      enabled:
+        description: Enabled is whether or not the project is enabled.
+        type: boolean
+      id:
+        description: ID is the unique ID of the project.
+        type: string
+      is_domain:
+        description: IsDomain indicates whether the project is a domain.
+        type: boolean
+      name:
+        description: Name is the name of the project.
+        type: string
+      options:
+        additionalProperties: true
+        description: Options are defined options in the API to enable certain features.
+        type: object
+      parent_id:
+        description: ParentID is the parent_id of the project.
+        type: string
+      tags:
+        description: Tags is the list of tags associated with the project.
+        items:
+          type: string
+        type: array
     type: object
   quotas.Quota:
     properties:
