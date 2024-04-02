@@ -21,7 +21,14 @@ func (s *Service) newIdetityV3Client(authUtils *dto.AuthUtils) (*gophercloud.Ser
 		IdentityEndpoint: authUtils.BaseUrl,
 		TokenID:          authUtils.Token,
 	}
+	client, err := s.newClient(opts)
+	if err != nil {
+		return nil, err
+	}
+	return client, nil
+}
 
+func (s *Service) newClient(opts gophercloud.AuthOptions) (*gophercloud.ServiceClient, error) {
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to authenticate client", nil)
@@ -32,6 +39,13 @@ func (s *Service) newIdetityV3Client(authUtils *dto.AuthUtils) (*gophercloud.Ser
 		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to create identity V3 client", nil)
 		return nil, err
 	}
+	return client, nil
+}
 
+func (s *Service) newIdetityV3ClientByAuthOpts(opts gophercloud.AuthOptions) (*gophercloud.ServiceClient, error) {
+	client, err := s.newClient(opts)
+	if err != nil {
+		return nil, err
+	}
 	return client, nil
 }

@@ -988,6 +988,52 @@
                 }
             }
         },
+        "/v3/users": {
+            "post": {
+                "description": "Create User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create User",
+                "parameters": [
+                    {
+                        "description": "CreateUserRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/users/{id}/projects": {
             "get": {
                 "security": [
@@ -1490,6 +1536,35 @@
             "properties": {
                 "project": {
                     "$ref": "#/definitions/projects.Project"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "domain_id": {
+                    "description": "DomainID is the ID this project will belong under.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enabled sets the project status to enabled or disabled.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "password": {
+                    "description": "Password is the password of the new user.",
+                    "type": "string"
                 }
             }
         },

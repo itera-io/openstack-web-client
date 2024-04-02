@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	v3 "github.com/itera-io/openstack-web-client/services/identity/v3"
 )
 
 type UsersHandler struct {
-	service *services.UserService
+	service *v3.Service
 }
 
 func NewUsersHandler(cfg *config.Config) *UsersHandler {
-	service := services.NewUserService(cfg)
+	service := v3.NewService(cfg)
 	return &UsersHandler{service: service}
 }
 
@@ -61,4 +61,19 @@ func (h *UsersHandler) Authenticate(c *gin.Context) {
 // @Security AuthBearer
 func (h *UsersHandler) ListUserProjects(c *gin.Context) {
 	GetById(c, h.service.ListUserProjects)
+}
+
+// CreateUser godoc
+// @Summary Create User
+// @Description Create User
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.CreateUserRequest true "CreateUserRequest"
+// @Success 201 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Failure 409 {object} helper.BaseHttpResponse "Failed"
+// @Router /v3/users [post]
+func (h *UsersHandler) CreateUser(c *gin.Context) {
+	CreateByAuth(c, h.service.CreateUser)
 }

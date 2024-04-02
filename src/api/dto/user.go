@@ -2,6 +2,8 @@ package dto
 
 import (
 	"time"
+
+	"github.com/gophercloud/gophercloud/openstack/identity/v3/users"
 )
 
 type ValidateUserRequest struct {
@@ -67,4 +69,19 @@ type Token struct {
 	Project   ProjectDto `json:"project"`
 	User      User       `json:"user"`
 	Roles     []Role     `json:"roles"`
+}
+
+type CreateUserRequest struct {
+	Name        string `json:"name" binding:"required,min=3"`
+	Description string `json:"description" binding:"required,min=6"`
+	// DomainID is the ID this project will belong under.
+	DomainID string `json:"domain_id,omitempty"`
+	// Enabled sets the project status to enabled or disabled.
+	Enabled *bool `json:"enabled,omitempty"`
+	// Password is the password of the new user.
+	Password string `json:"password,omitempty"`
+}
+
+type CreateUserResponse struct {
+	User users.User `json:"user"`
 }

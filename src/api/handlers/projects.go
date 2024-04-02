@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services/identity/v3/projects"
+	v3 "github.com/itera-io/openstack-web-client/services/identity/v3"
 )
 
 type ProjectsHandler struct {
-	service *projects.Service
+	service *v3.Service
 }
 
 func NewProjectsHandler(cfg *config.Config) *ProjectsHandler {
-	service := projects.NewService(cfg)
+	service := v3.NewService(cfg)
 	return &ProjectsHandler{service: service}
 }
 

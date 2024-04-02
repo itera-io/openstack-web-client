@@ -17,4 +17,5 @@ func AuthenticatedUser(router *gin.RouterGroup, cfg *config.Config) {
 	h := handlers.NewUsersHandler(cfg)
 
 	router.GET("/:id/projects", h.ListUserProjects)
+	router.POST("/", h.CreateUser)
 }

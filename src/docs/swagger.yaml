@@ -258,6 +258,27 @@ definitions:
       project:
         $ref: '#/definitions/projects.Project'
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest:
+    properties:
+      description:
+        minLength: 6
+        type: string
+      domain_id:
+        description: DomainID is the ID this project will belong under.
+        type: string
+      enabled:
+        description: Enabled sets the project status to enabled or disabled.
+        type: boolean
+      name:
+        minLength: 3
+        type: string
+      password:
+        description: Password is the password of the new user.
+        type: string
+    required:
+    - description
+    - name
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.GetComputeLimitResponse:
     properties:
       limits:
@@ -1495,6 +1516,36 @@ paths:
       summary: List Region
       tags:
       - Regions
+  /v3/users:
+    post:
+      consumes:
+      - application/json
+      description: Create User
+      parameters:
+      - description: CreateUserRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      summary: Create User
+      tags:
+      - Users
   /v3/users/{id}/projects:
     get:
       consumes:

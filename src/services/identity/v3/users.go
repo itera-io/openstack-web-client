@@ -1,27 +1,18 @@
-package services
+package v3
 
 import (
 	"context"
 
 	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/projects"
+	"github.com/gophercloud/gophercloud/openstack/identity/v3/regions"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/tokens"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/users"
 	"github.com/itera-io/openstack-web-client/api/dto"
-	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
-type UserService struct{ Logger logging.Logger }
-
-func NewUserService(cfg *config.Config) *UserService {
-	return &UserService{Logger: logging.NewLogger(cfg)}
-}
-
 // Validate user
-func (s *UserService) Validate(ctx context.Context, req *dto.ValidateUserRequest) (*dto.ValidateUserResponse, error) {
+func (s *Service) Validate(ctx context.Context, req *dto.ValidateUserRequest) (*dto.ValidateUserResponse, error) {
 	r := &dto.ValidateUserResponse{IsAuthenticated: false}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: req.Url,
@@ -31,28 +22,22 @@ func (s *UserService) Validate(ctx context.Context, req *dto.ValidateUserRequest
 		AllowReauth:      true,
 	}
 
-	provider, err := openstack.AuthenticatedClient(opts)
+	client, err := s.newIdetityV3ClientByAuthOpts(opts)
 	if err != nil {
-		return r, err
-	}
-
-	// Example of creating a service client, e.g., for Compute
-	client, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{})
-	if err != nil {
-		return r, err
+		return nil, err
 	}
 
 	// Perform a test operation to validate if authentication is successful
-	_, err = servers.List(client, servers.ListOpts{}).AllPages()
+	_, err = regions.List(client, regions.ListOpts{}).AllPages()
 	if err != nil {
-		return r, err
+		return nil, err
 	}
 	r.IsAuthenticated = true
 	return r, nil
 }
 
 // Authenticate user
-func (s *UserService) Authenticate(ctx context.Context, req *dto.AuthenticateUserRequest) (*dto.AuthenticateUserResponse, error) {
+func (s *Service) Authenticate(ctx context.Context, req *dto.AuthenticateUserRequest) (*dto.AuthenticateUserResponse, error) {
 	r := &dto.AuthenticateUserResponse{}
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint:            req.Url,
@@ -64,17 +49,12 @@ func (s *UserService) Authenticate(ctx context.Context, req *dto.AuthenticateUse
 		ApplicationCredentialName:   req.ApplicationCredentialName,
 		ApplicationCredentialSecret: req.ApplicationCredentialSecret,
 	}
+	client, err := s.newIdetityV3ClientByAuthOpts(opts)
 
-	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
 		return nil, err
 	}
-
-	identityClient, err := openstack.NewIdentityV3(provider, gophercloud.EndpointOpts{})
-	if err != nil {
-		return nil, err
-	}
-	result := tokens.Create(identityClient, &opts)
+	result := tokens.Create(client, &opts)
 	if result.Err != nil {
 		return nil, result.Err
 	}
@@ -85,23 +65,15 @@ func (s *UserService) Authenticate(ctx context.Context, req *dto.AuthenticateUse
 }
 
 // List users' projects
-func (s *UserService) ListUserProjects(ctx context.Context, userId string, authUtils *dto.AuthUtils) (*dto.ListUserProjectResponse, error) {
+func (s *Service) ListUserProjects(ctx context.Context, userId string, authUtils *dto.AuthUtils) (*dto.ListUserProjectResponse, error) {
 	r := &dto.ListUserProjectResponse{}
-	opts := gophercloud.AuthOptions{
-		IdentityEndpoint: authUtils.BaseUrl,
-		TokenID:          authUtils.Token,
-	}
-	provider, err := openstack.AuthenticatedClient(opts)
+	client, err := s.newIdetityV3Client(authUtils)
+
 	if err != nil {
-		return nil, err
-	}
-	identityClient, err := openstack.NewIdentityV3(provider, gophercloud.EndpointOpts{})
-	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, err.Error(), nil)
 		return nil, err
 	}
 
-	allPages, err := users.ListProjects(identityClient, userId).AllPages()
+	allPages, err := users.ListProjects(client, userId).AllPages()
 	if err != nil {
 		return nil, err
 	}
@@ -115,4 +87,25 @@ func (s *UserService) ListUserProjects(ctx context.Context, userId string, authU
 		r.UserProjects = append(r.UserProjects, dto.CommonDto{Id: allProjects[i].ID, Name: allProjects[i].Name})
 	}
 	return r, nil
+}
+
+// Create a user.
+func (s Service) CreateUser(ctx context.Context, req *dto.CreateUserRequest, authUtils *dto.AuthUtils) (*dto.CreateUserResponse, error) {
+	client, err := s.newIdetityV3Client(authUtils)
+	if err != nil {
+		return nil, err
+	}
+	opts := users.CreateOpts{
+		DomainID:    req.DomainID,
+		Enabled:     req.Enabled,
+		Name:        req.Name,
+		Password:    req.Password,
+		Description: req.Description,
+	}
+	result := users.Create(client, opts)
+	if result.Err != nil {
+		return nil, result.Err
+	}
+	res, _ := result.Extract()
+	return &dto.CreateUserResponse{User: *res}, nil
 }

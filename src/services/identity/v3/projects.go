@@ -8,6 +8,7 @@ import (
 	"github.com/itera-io/openstack-web-client/api/dto"
 )
 
+// Create a project.
 func (s Service) CreateProject(ctx context.Context, req *dto.CreateProjectRequest, authUtils *dto.AuthUtils) (*dto.CreateProjectResponse, error) {
 	client, err := s.newIdetityV3Client(authUtils)
 	if err != nil {
@@ -26,12 +27,11 @@ func (s Service) CreateProject(ctx context.Context, req *dto.CreateProjectReques
 	if result.Err != nil {
 		return nil, result.Err
 	}
-
-	res := &dto.CreateProjectResponse{}
-	result.ExtractInto(&res.Project)
-	return res, nil
+	res, _ := result.Extract()
+	return &dto.CreateProjectResponse{Project: *res}, nil
 }
 
+// List all projects
 func (s *Service) ListProjects(ctx context.Context, req *dto.ListProjectRequest, authUtils *dto.AuthUtils) (*dto.ListProjectResponse, error) {
 	client, err := s.newIdetityV3Client(authUtils)
 	if err != nil {
