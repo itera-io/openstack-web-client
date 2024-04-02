@@ -450,6 +450,29 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest:
+    properties:
+      '-':
+        additionalProperties:
+          type: string
+        description: |-
+          Filters filters the response by custom filters such as
+          'name__contains=foo'
+        type: object
+      domain_id:
+        description: DomainID filters the response by a domain ID.
+        type: string
+      name:
+        description: Name filters the response by role name.
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListRoleResponse:
+    properties:
+      roles:
+        items:
+          $ref: '#/definitions/roles.Role'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse:
     properties:
       projects:
@@ -679,6 +702,22 @@ definitions:
       trunk:
         description: Trunk represents a number of trunks. A "-1" value means no limit.
         type: integer
+    type: object
+  roles.Role:
+    properties:
+      domain_id:
+        description: DomainID is the domain ID the role belongs to.
+        type: string
+      id:
+        description: ID is the unique ID of the role.
+        type: string
+      links:
+        additionalProperties: true
+        description: Links contains referencing links to the role.
+        type: object
+      name:
+        description: Name is the role name
+        type: string
     type: object
   servers.AttachedVolume:
     properties:
@@ -1516,6 +1555,43 @@ paths:
       summary: List Region
       tags:
       - Regions
+  /v3/roles:
+    get:
+      consumes:
+      - application/json
+      description: List Role
+      parameters:
+      - description: ListRoleRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListRole response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRoleResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Role
+      tags:
+      - Roles
   /v3/users:
     post:
       consumes:

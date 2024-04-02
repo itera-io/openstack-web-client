@@ -55,6 +55,11 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		r.Static("/static", "./uploads")
 	}
 
+	registerV2Routes(api, cfg)
+	registerV3Routes(api, cfg)
+}
+
+func registerV2Routes(api *gin.RouterGroup, cfg *config.Config) {
 	v2 := api.Group("/v2")
 	{
 		health := v2.Group("/health")
@@ -74,6 +79,9 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		server := v2.Group("/servers", middlewares.Authentication(cfg))
 		routers.Server(server, cfg)
 	}
+}
+
+func registerV3Routes(api *gin.RouterGroup, cfg *config.Config) {
 	v3 := api.Group("/v3")
 	{
 		region := v3.Group("/regions", middlewares.Authentication(cfg))
@@ -86,6 +94,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.VolumeType(volumetype, cfg)
 		volumeLimits := v3.Group("/volume", middlewares.Authentication(cfg))
 		routers.VolumeLimits(volumeLimits, cfg)
+		role := v3.Group("/roles", middlewares.Authentication(cfg))
+		routers.Role(role, cfg)
 	}
 }
 

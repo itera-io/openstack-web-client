@@ -999,6 +999,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v3/roles": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "List Role",
+                "parameters": [
+                    {
+                        "description": "ListRoleRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListRole response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRoleResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/users": {
             "post": {
                 "description": "Create User",
@@ -1833,6 +1896,37 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest": {
+            "type": "object",
+            "properties": {
+                "-": {
+                    "description": "Filters filters the response by custom filters such as\n'name__contains=foo'",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "domain_id": {
+                    "description": "DomainID filters the response by a domain ID.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name filters the response by role name.",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListRoleResponse": {
+            "type": "object",
+            "properties": {
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/roles.Role"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse": {
             "type": "object",
             "properties": {
@@ -2129,6 +2223,28 @@ const docTemplate = `{
                 "trunk": {
                     "description": "Trunk represents a number of trunks. A \"-1\" value means no limit.",
                     "type": "integer"
+                }
+            }
+        },
+        "roles.Role": {
+            "type": "object",
+            "properties": {
+                "domain_id": {
+                    "description": "DomainID is the domain ID the role belongs to.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID is the unique ID of the role.",
+                    "type": "string"
+                },
+                "links": {
+                    "description": "Links contains referencing links to the role.",
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "name": {
+                    "description": "Name is the role name",
+                    "type": "string"
                 }
             }
         },
