@@ -85,3 +85,18 @@ type CreateUserRequest struct {
 type CreateUserResponse struct {
 	User users.User `json:"user"`
 }
+
+type ListUserRequest struct {
+	// DomainID filters the response by a domain ID.
+	DomainID string `form:"domain_id"`
+
+	// Enabled filters the response by enabled users.
+	Enabled *bool `form:"enabled"`
+
+	// Name filters the response by username.
+	Name string `form:"name"`
+}
+
+type ListUserResponse struct {
+	Users []users.User `json:"users"`
+}

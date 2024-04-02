@@ -943,7 +943,7 @@ const docTemplate = `{
                         "AuthBearer": []
                     }
                 ],
-                "description": "List Region",
+                "description": "List User",
                 "consumes": [
                     "application/json"
                 ],
@@ -951,23 +951,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Regions"
+                    "Users"
                 ],
-                "summary": "List Region",
+                "summary": "List User",
                 "parameters": [
                     {
-                        "description": "ListRegionRequest",
+                        "description": "ListUserRequest",
                         "name": "Request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest"
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserRequest"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "ListRegion response",
+                        "description": "ListUser response",
                         "schema": {
                             "allOf": [
                                 {
@@ -977,7 +977,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionResponse"
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserResponse"
                                         }
                                     }
                                 }
@@ -1938,6 +1938,41 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.ListUserRequest": {
+            "type": "object",
+            "properties": {
+                "-": {
+                    "description": "Filters filters the response by custom filters such as\n'name__contains=foo'",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "domain_id": {
+                    "description": "DomainID filters the response by a domain ID.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enabled filters the response by enabled users.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Name filters the response by username.",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListUserResponse": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/users.User"
+                    }
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest": {
             "type": "object"
         },
@@ -2502,6 +2537,45 @@ const docTemplate = `{
                 "tenant_id": {
                     "description": "TenantID is the project owner of the subnet.",
                     "type": "string"
+                }
+            }
+        },
+        "users.User": {
+            "type": "object",
+            "properties": {
+                "default_project_id": {
+                    "description": "DefaultProjectID is the ID of the default project of the user.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Description is the description of the user.",
+                    "type": "string"
+                },
+                "domain_id": {
+                    "description": "DomainID is the domain ID the user belongs to.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enabled is whether or not the user is enabled.",
+                    "type": "boolean"
+                },
+                "id": {
+                    "description": "ID is the unique ID of the user.",
+                    "type": "string"
+                },
+                "links": {
+                    "description": "Links contains referencing links to the user.",
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "name": {
+                    "description": "Name is the name of the user.",
+                    "type": "string"
+                },
+                "options": {
+                    "description": "Options are a set of defined options of the user.",
+                    "type": "object",
+                    "additionalProperties": true
                 }
             }
         },

@@ -109,3 +109,27 @@ func (s Service) CreateUser(ctx context.Context, req *dto.CreateUserRequest, aut
 	res, _ := result.Extract()
 	return &dto.CreateUserResponse{User: *res}, nil
 }
+
+// List all users
+func (s *Service) ListUsers(ctx context.Context, req *dto.ListUserRequest, authUtils *dto.AuthUtils) (*dto.ListUserResponse, error) {
+	client, err := s.newIdetityV3Client(authUtils)
+	if err != nil {
+		return nil, err
+	}
+	listOpts := users.ListOpts{
+		Enabled:  req.Enabled,
+		DomainID: req.DomainID,
+		Name:     req.Name,
+	}
+
+	allPages, err := users.List(client, listOpts).AllPages()
+	if err != nil {
+		return nil, err
+	}
+
+	allUsers, err := users.ExtractUsers(allPages)
+	if err != nil {
+		return nil, err
+	}
+	return &dto.ListUserResponse{Users: allUsers}, nil
+}

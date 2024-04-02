@@ -480,6 +480,32 @@ definitions:
           $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CommonDto'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListUserRequest:
+    properties:
+      '-':
+        additionalProperties:
+          type: string
+        description: |-
+          Filters filters the response by custom filters such as
+          'name__contains=foo'
+        type: object
+      domain_id:
+        description: DomainID filters the response by a domain ID.
+        type: string
+      enabled:
+        description: Enabled filters the response by enabled users.
+        type: boolean
+      name:
+        description: Name filters the response by username.
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListUserResponse:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/users.User'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeRequest:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListVolumeTypeResponse:
@@ -939,6 +965,35 @@ definitions:
       tenant_id:
         description: TenantID is the project owner of the subnet.
         type: string
+    type: object
+  users.User:
+    properties:
+      default_project_id:
+        description: DefaultProjectID is the ID of the default project of the user.
+        type: string
+      description:
+        description: Description is the description of the user.
+        type: string
+      domain_id:
+        description: DomainID is the domain ID the user belongs to.
+        type: string
+      enabled:
+        description: Enabled is whether or not the user is enabled.
+        type: boolean
+      id:
+        description: ID is the unique ID of the user.
+        type: string
+      links:
+        additionalProperties: true
+        description: Links contains referencing links to the user.
+        type: object
+      name:
+        description: Name is the name of the user.
+        type: string
+      options:
+        additionalProperties: true
+        description: Options are a set of defined options of the user.
+        type: object
     type: object
   volumetypes.VolumeType:
     properties:
@@ -1522,25 +1577,25 @@ paths:
     get:
       consumes:
       - application/json
-      description: List Region
+      description: List User
       parameters:
-      - description: ListRegionRequest
+      - description: ListUserRequest
         in: body
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionRequest'
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: ListRegion response
+          description: ListUser response
           schema:
             allOf:
             - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListRegionResponse'
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListUserResponse'
               type: object
         "400":
           description: Bad request
@@ -1552,9 +1607,9 @@ paths:
             $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
-      summary: List Region
+      summary: List User
       tags:
-      - Regions
+      - Users
   /v3/roles:
     get:
       consumes:

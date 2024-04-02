@@ -77,3 +77,19 @@ func (h *UsersHandler) ListUserProjects(c *gin.Context) {
 func (h *UsersHandler) CreateUser(c *gin.Context) {
 	CreateByAuth(c, h.service.CreateUser)
 }
+
+// ListUser godoc
+// @Summary List User
+// @Description List User
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.ListUserRequest true "ListUserRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.ListUserResponse} "ListUser response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v3/regions [get]
+// @Security AuthBearer
+func (h *UsersHandler) ListUsers(c *gin.Context) {
+	GetByFilter(c, h.service.ListUsers)
+}
