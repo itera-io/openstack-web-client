@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	v3 "github.com/itera-io/openstack-web-client/services/identity/v3"
 )
 
 type RegionsHandler struct {
-	service *services.RegionService
+	service *v3.Service
 }
 
 func NewRegionsHandler(cfg *config.Config) *RegionsHandler {
-	service := services.NewRegionService(cfg)
+	service := v3.NewService(cfg)
 	return &RegionsHandler{service: service}
 }
 
