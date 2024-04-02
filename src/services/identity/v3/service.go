@@ -1,4 +1,4 @@
-package projects
+package v3
 
 import (
 	"github.com/gophercloud/gophercloud"
