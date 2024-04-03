@@ -88,3 +88,27 @@ func CreateByAuth[Ti any, To any](c *gin.Context, caller func(ctx context.Contex
 	}
 	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
 }
+
+func Update[Ti any, To any](c *gin.Context, caller func(ctx context.Context, id string, req *Ti, a *dto.AuthUtils) (*To, error)) {
+	id := c.Params.ByName("id")
+	if id == "" {
+		c.AbortWithStatusJSON(http.StatusNotFound,
+			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+		return
+	}
+	req := new(Ti)
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
+		return
+	}
+
+	res, err := caller(c, id, req, GetAuthUtils(c))
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
+		return
+	}
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+}

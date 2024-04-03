@@ -1051,6 +1051,76 @@
                 }
             }
         },
+        "/v3/roles/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Assign Role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Assign Role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AssignRoleRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.AssignRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "AssignRole response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.AssignRoleResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v3/users": {
             "post": {
                 "description": "Create User",
@@ -1513,6 +1583,20 @@
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.AssignRoleRequest": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.AssignRoleResponse": {
+            "type": "object"
+        },
         "github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest": {
             "type": "object",
             "required": [
@@ -1888,13 +1972,6 @@
         "github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest": {
             "type": "object",
             "properties": {
-                "-": {
-                    "description": "Filters filters the response by custom filters such as\n'name__contains=foo'",
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
                 "domain_id": {
                     "description": "DomainID filters the response by a domain ID.",
                     "type": "string"
@@ -1930,13 +2007,6 @@
         "github_com_itera-io_openstack-web-client_api_dto.ListUserRequest": {
             "type": "object",
             "properties": {
-                "-": {
-                    "description": "Filters filters the response by custom filters such as\n'name__contains=foo'",
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
                 "domain_id": {
                     "description": "DomainID filters the response by a domain ID.",
                     "type": "string"

@@ -32,3 +32,20 @@ func NewRolesHandler(cfg *config.Config) *RolesHandler {
 func (h *RolesHandler) ListRoles(c *gin.Context) {
 	GetByFilter(c, h.service.ListRoles)
 }
+
+// AssignRole godoc
+// @Summary Assign Role
+// @Description Assign Role
+// @Tags Roles
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Param Request body dto.AssignRoleRequest true "AssignRoleRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.AssignRoleResponse} "AssignRole response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v3/roles/{id} [put]
+// @Security AuthBearer
+func (h *RolesHandler) AssignRole(c *gin.Context) {
+	Update(c, h.service.AssignRole)
+}

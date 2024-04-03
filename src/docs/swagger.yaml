@@ -195,6 +195,15 @@ definitions:
         - $ref: '#/definitions/github_com_gophercloud_gophercloud_openstack_compute_v2_extensions_limits.Absolute'
         description: Absolute contains the limits and usage information.
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.AssignRoleRequest:
+    properties:
+      projectId:
+        type: string
+      userId:
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.AssignRoleResponse:
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.AuthenticateUserRequest:
     properties:
       applicationCredentialID:
@@ -452,13 +461,6 @@ definitions:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListRoleRequest:
     properties:
-      '-':
-        additionalProperties:
-          type: string
-        description: |-
-          Filters filters the response by custom filters such as
-          'name__contains=foo'
-        type: object
       domain_id:
         description: DomainID filters the response by a domain ID.
         type: string
@@ -482,13 +484,6 @@ definitions:
     type: object
   github_com_itera-io_openstack-web-client_api_dto.ListUserRequest:
     properties:
-      '-':
-        additionalProperties:
-          type: string
-        description: |-
-          Filters filters the response by custom filters such as
-          'name__contains=foo'
-        type: object
       domain_id:
         description: DomainID filters the response by a domain ID.
         type: string
@@ -1645,6 +1640,48 @@ paths:
       security:
       - AuthBearer: []
       summary: List Role
+      tags:
+      - Roles
+  /v3/roles/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Assign Role
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: AssignRoleRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.AssignRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: AssignRole response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.AssignRoleResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Assign Role
       tags:
       - Roles
   /v3/users:

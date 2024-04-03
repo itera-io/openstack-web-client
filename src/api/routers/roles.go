@@ -10,4 +10,5 @@ func Role(router *gin.RouterGroup, cfg *config.Config) {
 	h := handlers.NewRolesHandler(cfg)
 
 	router.GET("/", h.ListRoles)
+	router.PUT("/:id/", h.AssignRole)
 }
