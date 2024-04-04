@@ -3,11 +3,13 @@ package compute
 import (
 	"context"
 
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/startstop"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	"github.com/itera-io/openstack-web-client/api/dto"
 	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
+// Get server by id.
 func (s *Service) GetServer(ctx context.Context, serverId string, authUtils *dto.AuthUtils) (*dto.GetServerResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {
@@ -23,6 +25,7 @@ func (s *Service) GetServer(ctx context.Context, serverId string, authUtils *dto
 	return &dto.GetServerResponse{Server: *server}, nil
 }
 
+// List all servers.
 func (s *Service) ListServers(ctx context.Context, req *dto.ListServerRequest, authUtils *dto.AuthUtils) (*dto.ListServerResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {
@@ -53,7 +56,7 @@ func (s *Service) ListServers(ctx context.Context, req *dto.ListServerRequest, a
 	return &dto.ListServerResponse{Servers: allServers}, nil
 }
 
-// Reboot a server.
+// Reboot server by id.
 func (s *Service) RebootServer(ctx context.Context, serverId string, req *dto.RebootServerRequest, authUtils *dto.AuthUtils) (*dto.RebootServerResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {
@@ -62,7 +65,36 @@ func (s *Service) RebootServer(ctx context.Context, serverId string, req *dto.Re
 	opts := servers.RebootOpts{Type: servers.RebootMethod(req.Type)}
 	err = servers.Reboot(client, serverId, opts).ExtractErr()
 	if err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to reboot server", nil)
 		return nil, err
 	}
 	return &dto.RebootServerResponse{}, nil
+}
+
+// Start server by id.
+func (s *Service) StartServer(ctx context.Context, serverId string, authUtils *dto.AuthUtils) error {
+	client, err := s.newNewComputeV2(authUtils)
+	if err != nil {
+		return err
+	}
+	err = startstop.Start(client, serverId).ExtractErr()
+	if err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to start server", nil)
+		return err
+	}
+	return nil
+}
+
+// Stop server by id.
+func (s *Service) StopServer(ctx context.Context, serverId string, authUtils *dto.AuthUtils) error {
+	client, err := s.newNewComputeV2(authUtils)
+	if err != nil {
+		return err
+	}
+	err = startstop.Stop(client, serverId).ExtractErr()
+	if err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to stop server", nil)
+		return err
+	}
+	return nil
 }

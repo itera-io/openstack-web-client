@@ -8,6 +8,7 @@ import (
 	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
+// Get compute limits.
 func (s *Service) GetLimits(ctx context.Context, req *dto.GetComputeLimitRequest, authUtils *dto.AuthUtils) (*dto.GetComputeLimitResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {

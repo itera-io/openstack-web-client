@@ -8,6 +8,7 @@ import (
 	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
+// List all flavors.
 func (s *Service) ListFlavors(ctx context.Context, req *dto.ListFlavorRequest, authUtils *dto.AuthUtils) (*dto.ListFlavorResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {
@@ -33,6 +34,7 @@ func (s *Service) ListFlavors(ctx context.Context, req *dto.ListFlavorRequest, a
 	return &dto.ListFlavorResponse{Flavors: allFlavors}, nil
 }
 
+// Get flavor by id.
 func (s *Service) GetFlavor(ctx context.Context, flavorId string, authUtils *dto.AuthUtils) (*dto.GetFlavorResponse, error) {
 	client, err := s.newNewComputeV2(authUtils)
 	if err != nil {

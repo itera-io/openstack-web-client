@@ -12,4 +12,6 @@ func Server(router *gin.RouterGroup, cfg *config.Config) {
 	router.GET("/", h.ListServers)
 	router.GET("/:id/", h.GetServer)
 	router.PUT("/:id/", h.RebootServer)
+	router.PUT("/:id/start/", h.StartServer)
+	router.PUT("/:id/stop/", h.StopServer)
 }

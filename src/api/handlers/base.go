@@ -112,3 +112,20 @@ func Update[Ti any, To any](c *gin.Context, caller func(ctx context.Context, id 
 	}
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
 }
+
+func UpdateWithoutBody(c *gin.Context, caller func(ctx context.Context, id string, a *dto.AuthUtils) error) {
+	id := c.Params.ByName("id")
+	if id == "" {
+		c.AbortWithStatusJSON(http.StatusNotFound,
+			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+		return
+	}
+
+	err := caller(c, id, GetAuthUtils(c))
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
+		return
+	}
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(nil, true, 0))
+}
