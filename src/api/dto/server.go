@@ -45,3 +45,10 @@ type ListServerResponse struct {
 type GetServerResponse struct {
 	Server servers.Server `json:"server"`
 }
+
+type RebootServerRequest struct {
+	// Type is the type of reboot to perform on the server.
+	Type string `json:"type" required:"true"`
+}
+
+type RebootServerResponse struct{}

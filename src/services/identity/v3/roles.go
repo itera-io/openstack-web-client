@@ -31,7 +31,7 @@ func (s *Service) ListRoles(ctx context.Context, req *dto.ListRoleRequest, authU
 }
 
 // Assign a Role to a User in a Project.
-func (s Service) AssignRole(ctx context.Context, roleId string, req *dto.AssignRoleRequest, authUtils *dto.AuthUtils) (*dto.AssignRoleResponse, error) {
+func (s *Service) AssignRole(ctx context.Context, roleId string, req *dto.AssignRoleRequest, authUtils *dto.AuthUtils) (*dto.AssignRoleResponse, error) {
 	client, err := s.newIdetityV3Client(authUtils)
 	if err != nil {
 		return nil, err

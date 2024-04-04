@@ -52,3 +52,17 @@ func (s *Service) ListServers(ctx context.Context, req *dto.ListServerRequest, a
 
 	return &dto.ListServerResponse{Servers: allServers}, nil
 }
+
+// Reboot a server.
+func (s *Service) RebootServer(ctx context.Context, serverId string, req *dto.RebootServerRequest, authUtils *dto.AuthUtils) (*dto.RebootServerResponse, error) {
+	client, err := s.newNewComputeV2(authUtils)
+	if err != nil {
+		return nil, err
+	}
+	opts := servers.RebootOpts{Type: servers.RebootMethod(req.Type)}
+	err = servers.Reboot(client, serverId, opts).ExtractErr()
+	if err != nil {
+		return nil, err
+	}
+	return &dto.RebootServerResponse{}, nil
+}

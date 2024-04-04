@@ -557,6 +557,14 @@ definitions:
           $ref: '#/definitions/volumetypes.VolumeType'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.RebootServerRequest:
+    properties:
+      type:
+        description: Type is the type of reboot to perform on the server.
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.RebootServerResponse:
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest:
     properties:
       domain:
@@ -1253,25 +1261,25 @@ paths:
     get:
       consumes:
       - application/json
-      description: List Server
+      description: List Flavor
       parameters:
-      - description: ListServer Request
+      - description: ListFlavor Request
         in: body
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest'
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: ListServer response
+          description: ListFlavor response
           schema:
             allOf:
             - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse'
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse'
               type: object
         "400":
           description: Bad request
@@ -1283,9 +1291,9 @@ paths:
             $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
-      summary: List Server
+      summary: List Flavor
       tags:
-      - Servers
+      - Flavors
   /v2/flavors/{id}:
     get:
       consumes:
@@ -1506,6 +1514,43 @@ paths:
       summary: List Network Subnets
       tags:
       - NetworkSubnets
+  /v2/servers:
+    get:
+      consumes:
+      - application/json
+      description: List Server
+      parameters:
+      - description: ListServer Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ListServer response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: List Server
+      tags:
+      - Servers
   /v2/servers/{id}:
     get:
       consumes:
@@ -1540,6 +1585,47 @@ paths:
       security:
       - AuthBearer: []
       summary: Get Server
+      tags:
+      - Servers
+    put:
+      consumes:
+      - application/json
+      description: Reboot Server
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: RebootServerRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.RebootServerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: RebootServer response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.RebootServerResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Reboot Server
       tags:
       - Servers
   /v3/projects:

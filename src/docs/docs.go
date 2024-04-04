@@ -321,7 +321,7 @@ const docTemplate = `{
                         "AuthBearer": []
                     }
                 ],
-                "description": "List Server",
+                "description": "List Flavor",
                 "consumes": [
                     "application/json"
                 ],
@@ -329,23 +329,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Servers"
+                    "Flavors"
                 ],
-                "summary": "List Server",
+                "summary": "List Flavor",
                 "parameters": [
                     {
-                        "description": "ListServer Request",
+                        "description": "ListFlavor Request",
                         "name": "Request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest"
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "ListServer response",
+                        "description": "ListFlavor response",
                         "schema": {
                             "allOf": [
                                 {
@@ -355,7 +355,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse"
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse"
                                         }
                                     }
                                 }
@@ -751,6 +751,69 @@ const docTemplate = `{
                 }
             }
         },
+        "/v2/servers": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "List Server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "List Server",
+                "parameters": [
+                    {
+                        "description": "ListServer Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListServer response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/servers/{id}": {
             "get": {
                 "security": [
@@ -791,6 +854,74 @@ const docTemplate = `{
                                     "properties": {
                                         "result": {
                                             "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.GetServerResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Reboot Server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Reboot Server",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "RebootServerRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.RebootServerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "RebootServer response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.RebootServerResponse"
                                         }
                                     }
                                 }
@@ -2104,6 +2235,18 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.RebootServerRequest": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Type is the type of reboot to perform on the server.",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.RebootServerResponse": {
+            "type": "object"
         },
         "github_com_itera-io_openstack-web-client_api_dto.ValidateUserRequest": {
             "type": "object",

@@ -43,8 +43,25 @@ func (h *ServersHandler) GetServer(c *gin.Context) {
 // @Success 200 {object} helper.BaseHttpResponse{result=dto.ListServerResponse} "ListServer response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
-// @Router /v2/flavors [get]
+// @Router /v2/servers [get]
 // @Security AuthBearer
 func (h *ServersHandler) ListServers(c *gin.Context) {
 	GetByFilter(c, h.service.ListServers)
+}
+
+// RebootServer godoc
+// @Summary Reboot Server
+// @Description Reboot Server
+// @Tags Servers
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Param Request body dto.RebootServerRequest true "RebootServerRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.RebootServerResponse} "RebootServer response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/servers/{id} [put]
+// @Security AuthBearer
+func (h *ServersHandler) RebootServer(c *gin.Context) {
+	Update(c, h.service.RebootServer)
 }
