@@ -310,7 +310,7 @@
                         "AuthBearer": []
                     }
                 ],
-                "description": "List Flavor",
+                "description": "List Server",
                 "consumes": [
                     "application/json"
                 ],
@@ -318,23 +318,23 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Flavors"
+                    "Servers"
                 ],
-                "summary": "List Flavor",
+                "summary": "List Server",
                 "parameters": [
                     {
-                        "description": "ListFlavor Request",
+                        "description": "ListServer Request",
                         "name": "Request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest"
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "ListFlavor response",
+                        "description": "ListServer response",
                         "schema": {
                             "allOf": [
                                 {
@@ -344,7 +344,7 @@
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse"
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse"
                                         }
                                     }
                                 }
@@ -1989,6 +1989,54 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/roles.Role"
+                    }
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListServerRequest": {
+            "type": "object",
+            "properties": {
+                "flavor": {
+                    "description": "Flavor is the name of the flavor in URL format.",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "IP is a regular expression to match the IPv4 address of the server.",
+                    "type": "string"
+                },
+                "limit": {
+                    "description": "Limit is an integer value for the limit of values to return.",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Name of the server as a string; can be queried with regular expressions.\nRealize that ?name=bob returns both bob and bobb. If you need to match bob\nonly, you can use a regular expression matching the syntax of the\nunderlying database server implemented for Compute.",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Status is the value of the status of the server so that you can filter on\n\"ACTIVE\" for example.",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "This requires the client to be set to microversion 2.26 or later.\nTags filters on specific server tags. All tags must be present for the server.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "description": "TenantID lists servers for a particular tenant.\nSetting \"AllTenants = true\" is required.",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "This requires the client to be set to microversion 2.83 or later, unless\nthe user is an admin.\nUserID lists servers for a particular user.",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.ListServerResponse": {
+            "type": "object",
+            "properties": {
+                "servers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/servers.Server"
                     }
                 }
             }

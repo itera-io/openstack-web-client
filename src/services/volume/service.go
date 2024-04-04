@@ -25,13 +25,13 @@ func (s *Service) newBlockStorageClient(authUtils *dto.AuthUtils) (*gophercloud.
 
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to authenticate client", nil)
+		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to authenticate client", nil)
 		return nil, err
 	}
 
 	client, err := openstack.NewBlockStorageV3(provider, gophercloud.EndpointOpts{})
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to create block storage V3 client", nil)
+		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to create block storage V3 client", nil)
 		return nil, err
 	}
 

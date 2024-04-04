@@ -25,7 +25,7 @@ func (s *Service) newNetworkV2Client(authUtils *dto.AuthUtils) (*gophercloud.Ser
 
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to authenticate client", nil)
+		s.Logger.Error(logging.NetworkClient, logging.ExternalService, "Failed to authenticate client", nil)
 		return nil, err
 	}
 

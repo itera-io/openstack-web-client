@@ -18,7 +18,7 @@ func (s *Service) GetLimits(ctx context.Context, req *dto.GetComputeLimitRequest
 	}
 	limits, err := limits.Get(client, getOpts).Extract()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to get compute limits", nil)
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to get compute limits", nil)
 		return nil, err
 	}
 	return &dto.GetComputeLimitResponse{ComputeLimits: *limits}, nil

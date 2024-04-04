@@ -19,7 +19,7 @@ func (s *Service) GetSubnets(ctx context.Context, req *dto.ListNetworkSubnetRequ
 	}
 	allPages, err := subnets.List(client, listOpts).AllPages()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to get subnets", nil)
+		s.Logger.Error(logging.NetworkClient, logging.ExternalService, "Failed to get subnets", nil)
 		return nil, err
 	}
 	subnetResult, err := subnets.ExtractSubnets(allPages)

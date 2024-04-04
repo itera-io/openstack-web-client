@@ -18,7 +18,7 @@ func (s *Service) ListTypes(ctx context.Context, req *dto.ListVolumeTypeRequest,
 	listOpts := volumetypes.ListOpts{}
 	allPages, err := volumetypes.List(client, listOpts).AllPages()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to list volume types", nil)
+		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to list volume types", nil)
 		return nil, err
 	}
 

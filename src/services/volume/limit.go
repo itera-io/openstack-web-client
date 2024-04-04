@@ -17,7 +17,7 @@ func (s *Service) GetLimits(ctx context.Context, req *dto.GetVolumeLimitRequest,
 
 	limitsResult, err := limits.Get(client).Extract()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to get volume limits", nil)
+		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to get volume limits", nil)
 		return nil, err
 	}
 

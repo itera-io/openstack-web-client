@@ -5,11 +5,14 @@ type SubCategory string
 type ExtraKey string
 
 const (
-	General         Category = "General"
-	IO              Category = "IO"
-	Internal        Category = "Internal"
-	RequestResponse Category = "RequestResponse"
-	IdentityClient  Category = "IdentityClient"
+	General            Category = "General"
+	IO                 Category = "IO"
+	Internal           Category = "Internal"
+	RequestResponse    Category = "RequestResponse"
+	IdentityClient     Category = "IdentityClient"
+	ComputeClient      Category = "ComputeClient"
+	NetworkClient      Category = "NetworkClient"
+	BlockStorageClient Category = "BlockStorageClient"
 )
 
 const (

@@ -9,5 +9,6 @@ import (
 func Server(router *gin.RouterGroup, cfg *config.Config) {
 	h := handlers.NewServersHandler(cfg)
 
+	router.GET("/", h.ListServers)
 	router.GET("/:id/", h.GetServer)
 }

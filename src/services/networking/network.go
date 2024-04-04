@@ -17,7 +17,7 @@ func (s *Service) GetNetworks(ctx context.Context, req *dto.ListNetworkRequest, 
 	listOpts := networks.ListOpts{}
 	allPages, err := networks.List(client, listOpts).AllPages()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to get networks", nil)
+		s.Logger.Error(logging.NetworkClient, logging.ExternalService, "Failed to get networks", nil)
 		return nil, err
 	}
 	networks, err := networks.ExtractNetworks(allPages)

@@ -32,3 +32,19 @@ func NewServersHandler(cfg *config.Config) *ServersHandler {
 func (h *ServersHandler) GetServer(c *gin.Context) {
 	GetById(c, h.service.GetServer)
 }
+
+// ListServer godoc
+// @Summary List Server
+// @Description List Server
+// @Tags Servers
+// @Accept  json
+// @Produce  json
+// @Param Request body dto.ListServerRequest true "ListServer Request"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.ListServerResponse} "ListServer response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/flavors [get]
+// @Security AuthBearer
+func (h *ServersHandler) ListServers(c *gin.Context) {
+	GetByFilter(c, h.service.ListServers)
+}

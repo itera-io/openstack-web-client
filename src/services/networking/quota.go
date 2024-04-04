@@ -5,6 +5,7 @@ import (
 
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/quotas"
 	"github.com/itera-io/openstack-web-client/api/dto"
+	"github.com/itera-io/openstack-web-client/pkg/logging"
 )
 
 // GetQuotas retrieves the available networking quotas.
@@ -16,6 +17,7 @@ func (s *Service) GetQuotas(ctx context.Context, req *dto.GetNetworkQuotaRequest
 
 	quota, err := quotas.Get(client, req.ProjectID).Extract()
 	if err != nil {
+		s.Logger.Error(logging.NetworkClient, logging.ExternalService, "Failed to get network quotas", nil)
 		return nil, err
 	}
 

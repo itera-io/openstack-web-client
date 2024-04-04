@@ -21,7 +21,7 @@ func (s *Service) ListFlavors(ctx context.Context, req *dto.ListFlavorRequest, a
 
 	allPages, err := flavors.ListDetail(client, listOpts).AllPages()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to list flavors", nil)
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to list flavors", nil)
 		return nil, err
 	}
 
@@ -42,7 +42,7 @@ func (s *Service) GetFlavor(ctx context.Context, flavorId string, authUtils *dto
 
 	flavor, err := getResult.Extract()
 	if err != nil {
-		s.Logger.Error(logging.IdentityClient, logging.ExternalService, "Failed to get flavor", nil)
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to get flavor", nil)
 		return nil, err
 	}
 	return &dto.GetFlavorResponse{Flavor: *flavor}, nil

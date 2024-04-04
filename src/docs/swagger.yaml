@@ -475,6 +475,53 @@ definitions:
           $ref: '#/definitions/roles.Role'
         type: array
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListServerRequest:
+    properties:
+      flavor:
+        description: Flavor is the name of the flavor in URL format.
+        type: string
+      ip:
+        description: IP is a regular expression to match the IPv4 address of the server.
+        type: string
+      limit:
+        description: Limit is an integer value for the limit of values to return.
+        type: integer
+      name:
+        description: |-
+          Name of the server as a string; can be queried with regular expressions.
+          Realize that ?name=bob returns both bob and bobb. If you need to match bob
+          only, you can use a regular expression matching the syntax of the
+          underlying database server implemented for Compute.
+        type: string
+      status:
+        description: |-
+          Status is the value of the status of the server so that you can filter on
+          "ACTIVE" for example.
+        type: string
+      tags:
+        description: |-
+          This requires the client to be set to microversion 2.26 or later.
+          Tags filters on specific server tags. All tags must be present for the server.
+        type: string
+      tenant_id:
+        description: |-
+          TenantID lists servers for a particular tenant.
+          Setting "AllTenants = true" is required.
+        type: string
+      user_id:
+        description: |-
+          This requires the client to be set to microversion 2.83 or later, unless
+          the user is an admin.
+          UserID lists servers for a particular user.
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.ListServerResponse:
+    properties:
+      servers:
+        items:
+          $ref: '#/definitions/servers.Server'
+        type: array
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.ListUserProjectResponse:
     properties:
       projects:
@@ -1206,25 +1253,25 @@ paths:
     get:
       consumes:
       - application/json
-      description: List Flavor
+      description: List Server
       parameters:
-      - description: ListFlavor Request
+      - description: ListServer Request
         in: body
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorRequest'
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: ListFlavor response
+          description: ListServer response
           schema:
             allOf:
             - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListFlavorResponse'
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.ListServerResponse'
               type: object
         "400":
           description: Bad request
@@ -1236,9 +1283,9 @@ paths:
             $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
-      summary: List Flavor
+      summary: List Server
       tags:
-      - Flavors
+      - Servers
   /v2/flavors/{id}:
     get:
       consumes:
