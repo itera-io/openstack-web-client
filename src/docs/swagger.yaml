@@ -1587,6 +1587,7 @@ paths:
       summary: Get Server
       tags:
       - Servers
+  /v2/servers/{id}/reboot:
     put:
       consumes:
       - application/json
@@ -1626,6 +1627,37 @@ paths:
       security:
       - AuthBearer: []
       summary: Reboot Server
+      tags:
+      - Servers
+  /v2/servers/{id}/shelve:
+    put:
+      consumes:
+      - application/json
+      description: Shelve Server
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ShelveServer response
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Shelve Server
       tags:
       - Servers
   /v2/servers/{id}/start:
@@ -1688,6 +1720,37 @@ paths:
       security:
       - AuthBearer: []
       summary: Stop Server
+      tags:
+      - Servers
+  /v2/servers/{id}/unshelve:
+    put:
+      consumes:
+      - application/json
+      description: Unshelve Server
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: UnshelveServer response
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Unshelve Server
       tags:
       - Servers
   /v3/projects:

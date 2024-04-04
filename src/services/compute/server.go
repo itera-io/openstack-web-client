@@ -3,6 +3,7 @@ package compute
 import (
 	"context"
 
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/shelveunshelve"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/startstop"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	"github.com/itera-io/openstack-web-client/api/dto"
@@ -94,6 +95,35 @@ func (s *Service) StopServer(ctx context.Context, serverId string, authUtils *dt
 	err = startstop.Stop(client, serverId).ExtractErr()
 	if err != nil {
 		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to stop server", nil)
+		return err
+	}
+	return nil
+}
+
+// Shelve server by id.
+func (s *Service) ShelveServer(ctx context.Context, serverId string, authUtils *dto.AuthUtils) error {
+	client, err := s.newNewComputeV2(authUtils)
+	if err != nil {
+		return err
+	}
+	err = shelveunshelve.Shelve(client, serverId).ExtractErr()
+	if err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to shelve server", nil)
+		return err
+	}
+	return nil
+}
+
+// Unshelve server by id.
+func (s *Service) UnshelveServer(ctx context.Context, serverId string, authUtils *dto.AuthUtils) error {
+	client, err := s.newNewComputeV2(authUtils)
+	if err != nil {
+		return err
+	}
+	opts := shelveunshelve.UnshelveOpts{}
+	err = shelveunshelve.Unshelve(client, serverId, opts).ExtractErr()
+	if err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to unshelve server", nil)
 		return err
 	}
 	return nil

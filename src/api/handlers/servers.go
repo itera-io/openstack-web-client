@@ -60,7 +60,7 @@ func (h *ServersHandler) ListServers(c *gin.Context) {
 // @Success 200 {object} helper.BaseHttpResponse{result=dto.RebootServerResponse} "RebootServer response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
-// @Router /v2/servers/{id} [put]
+// @Router /v2/servers/{id}/reboot [put]
 // @Security AuthBearer
 func (h *ServersHandler) RebootServer(c *gin.Context) {
 	Update(c, h.service.RebootServer)
@@ -96,4 +96,36 @@ func (h *ServersHandler) StartServer(c *gin.Context) {
 // @Security AuthBearer
 func (h *ServersHandler) StopServer(c *gin.Context) {
 	UpdateWithoutBody(c, h.service.StopServer)
+}
+
+// ShelveServer godoc
+// @Summary Shelve Server
+// @Description Shelve Server
+// @Tags Servers
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Success 200 {object} helper.BaseHttpResponse "ShelveServer response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/servers/{id}/shelve [put]
+// @Security AuthBearer
+func (h *ServersHandler) ShelveServer(c *gin.Context) {
+	UpdateWithoutBody(c, h.service.ShelveServer)
+}
+
+// UnshelveServer godoc
+// @Summary Unshelve Server
+// @Description Unshelve Server
+// @Tags Servers
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Success 200 {object} helper.BaseHttpResponse "UnshelveServer response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/servers/{id}/unshelve [put]
+// @Security AuthBearer
+func (h *ServersHandler) UnshelveServer(c *gin.Context) {
+	UpdateWithoutBody(c, h.service.UnshelveServer)
 }

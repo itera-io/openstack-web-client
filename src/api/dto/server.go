@@ -52,3 +52,10 @@ type RebootServerRequest struct {
 }
 
 type RebootServerResponse struct{}
+
+type ShelveServerRequest struct {
+	// Type is the type of reboot to perform on the server.
+	Type string `json:"type" required:"true"`
+}
+
+type RShelveServerResponse struct{}
