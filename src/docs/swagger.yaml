@@ -267,6 +267,18 @@ definitions:
       project:
         $ref: '#/definitions/projects.Project'
     type: object
+  github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleRequest:
+    properties:
+      protocol:
+        type: string
+      type:
+        type: string
+    type: object
+  github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleResponse:
+    properties:
+      remoteconsole:
+        $ref: '#/definitions/remoteconsoles.RemoteConsole'
+    type: object
   github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest:
     properties:
       description:
@@ -778,6 +790,24 @@ definitions:
       trunk:
         description: Trunk represents a number of trunks. A "-1" value means no limit.
         type: integer
+    type: object
+  remoteconsoles.RemoteConsole:
+    properties:
+      protocol:
+        description: |-
+          Protocol contains remote console protocol.
+          You can use the RemoteConsoleProtocol custom type to unmarshal raw JSON
+          response into the pre-defined valid console protocol.
+        type: string
+      type:
+        description: |-
+          Type contains remote console type.
+          You can use the RemoteConsoleType custom type to unmarshal raw JSON
+          response into the pre-defined valid console type.
+        type: string
+      url:
+        description: URL can be used to connect to the remote console.
+        type: string
     type: object
   roles.Role:
     properties:
@@ -1627,6 +1657,48 @@ paths:
       security:
       - AuthBearer: []
       summary: Reboot Server
+      tags:
+      - Servers
+  /v2/servers/{id}/remote-consoles:
+    put:
+      consumes:
+      - application/json
+      description: CreateRemoteConsole
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: CreateRemoteConsoleRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: CreateRemoteConsole response
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+        "401":
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create RemoteConsole
       tags:
       - Servers
   /v2/servers/{id}/shelve:

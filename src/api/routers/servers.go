@@ -16,4 +16,5 @@ func Server(router *gin.RouterGroup, cfg *config.Config) {
 	router.PUT("/:id/stop/", h.StopServer)
 	router.PUT("/:id/shelve/", h.ShelveServer)
 	router.PUT("/:id/unshelve/", h.UnshelveServer)
+	router.PUT("/:id/remote-consoles/", h.CreateRemoteConsole)
 }

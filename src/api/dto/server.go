@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/remoteconsoles"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 )
 
@@ -53,9 +54,11 @@ type RebootServerRequest struct {
 
 type RebootServerResponse struct{}
 
-type ShelveServerRequest struct {
-	// Type is the type of reboot to perform on the server.
-	Type string `json:"type" required:"true"`
+type CreateRemoteConsoleRequest struct {
+	Type     string `json:"type" required:"true"`
+	Protocol string `json:"protocol" required:"true"`
 }
 
-type RShelveServerResponse struct{}
+type CreateRemoteConsoleResponse struct {
+	RemoteConsole remoteconsoles.RemoteConsole `json:"remoteconsole"`
+}

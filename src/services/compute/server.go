@@ -3,6 +3,7 @@ package compute
 import (
 	"context"
 
+	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/remoteconsoles"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/shelveunshelve"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/startstop"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
@@ -127,4 +128,21 @@ func (s *Service) UnshelveServer(ctx context.Context, serverId string, authUtils
 		return err
 	}
 	return nil
+}
+
+// Create remote consoles by server id.
+func (s *Service) CreateRemoteConsole(ctx context.Context, serverId string, req *dto.CreateRemoteConsoleRequest, authUtils *dto.AuthUtils) (*dto.CreateRemoteConsoleResponse, error) {
+	client, err := s.newNewComputeV2(authUtils)
+	client.Microversion = "2.6"
+	if err != nil {
+		return nil, err
+	}
+	opts := remoteconsoles.CreateOpts{Protocol: remoteconsoles.ConsoleProtocol(req.Protocol), Type: remoteconsoles.ConsoleType(req.Type)}
+	result := remoteconsoles.Create(client, serverId, opts)
+	if result.Err != nil {
+		s.Logger.Error(logging.ComputeClient, logging.ExternalService, "Failed to create remote consoles by server id", nil)
+		return nil, result.Err
+	}
+	res, _ := result.Extract()
+	return &dto.CreateRemoteConsoleResponse{RemoteConsole: *res}, nil
 }

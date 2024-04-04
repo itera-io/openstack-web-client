@@ -934,6 +934,76 @@
                 }
             }
         },
+        "/v2/servers/{id}/remote-consoles": {
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "CreateRemoteConsole",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Create RemoteConsole",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "CreateRemoteConsoleRequest",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CreateRemoteConsole response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_itera-io_openstack-web-client_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v2/servers/{id}/shelve": {
             "put": {
                 "security": [
@@ -2015,6 +2085,25 @@
                 }
             }
         },
+        "github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleRequest": {
+            "type": "object",
+            "properties": {
+                "protocol": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_itera-io_openstack-web-client_api_dto.CreateRemoteConsoleResponse": {
+            "type": "object",
+            "properties": {
+                "remoteconsole": {
+                    "$ref": "#/definitions/remoteconsoles.RemoteConsole"
+                }
+            }
+        },
         "github_com_itera-io_openstack-web-client_api_dto.CreateUserRequest": {
             "type": "object",
             "required": [
@@ -2706,6 +2795,23 @@
                 "trunk": {
                     "description": "Trunk represents a number of trunks. A \"-1\" value means no limit.",
                     "type": "integer"
+                }
+            }
+        },
+        "remoteconsoles.RemoteConsole": {
+            "type": "object",
+            "properties": {
+                "protocol": {
+                    "description": "Protocol contains remote console protocol.\nYou can use the RemoteConsoleProtocol custom type to unmarshal raw JSON\nresponse into the pre-defined valid console protocol.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type contains remote console type.\nYou can use the RemoteConsoleType custom type to unmarshal raw JSON\nresponse into the pre-defined valid console type.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "URL can be used to connect to the remote console.",
+                    "type": "string"
                 }
             }
         },

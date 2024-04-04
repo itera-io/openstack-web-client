@@ -129,3 +129,20 @@ func (h *ServersHandler) ShelveServer(c *gin.Context) {
 func (h *ServersHandler) UnshelveServer(c *gin.Context) {
 	UpdateWithoutBody(c, h.service.UnshelveServer)
 }
+
+// CreateRemoteConsole godoc
+// @Summary Create RemoteConsole
+// @Description CreateRemoteConsole
+// @Tags Servers
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Param Request body dto.CreateRemoteConsoleRequest true "CreateRemoteConsoleRequest"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.CreateRemoteConsoleResponse} "CreateRemoteConsole response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Failure 401 {object} helper.BaseHttpResponse "Unauthorized request"
+// @Router /v2/servers/{id}/remote-consoles [put]
+// @Security AuthBearer
+func (h *ServersHandler) CreateRemoteConsole(c *gin.Context) {
+	Update(c, h.service.CreateRemoteConsole)
+}
