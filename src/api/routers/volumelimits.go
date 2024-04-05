@@ -7,7 +7,7 @@ import (
 )
 
 func VolumeLimits(router *gin.RouterGroup, cfg *config.Config) {
-	h := handlers.NewVolumeLimitsHandler(cfg)
+	h := handlers.NewBlockStorageHandler(cfg)
 
 	router.GET("/limits", h.GetVolumeLimits)
 }

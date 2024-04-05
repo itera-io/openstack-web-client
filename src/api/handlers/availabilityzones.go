@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/compute"
 )
 
 type AvailabilityZonesHandler struct {
-	service *services.AvailabilityZoneService
+	service *compute.Service
 }
 
 func NewAvailabilityZonesHandler(cfg *config.Config) *AvailabilityZonesHandler {
-	service := services.NewAvailabilityZoneService(cfg)
+	service := compute.NewService(cfg)
 	return &AvailabilityZonesHandler{service: service}
 }
 

@@ -13,6 +13,7 @@ const (
 	ComputeClient      Category = "ComputeClient"
 	NetworkClient      Category = "NetworkClient"
 	BlockStorageClient Category = "BlockStorageClient"
+	ImageServiceClient Category = "ImageServiceClient"
 )
 
 const (

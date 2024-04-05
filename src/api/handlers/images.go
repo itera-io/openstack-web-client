@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/imageservice"
 )
 
 type ImagesHandler struct {
-	service *services.ImageService
+	service *imageservice.Service
 }
 
 func NewImagesHandler(cfg *config.Config) *ImagesHandler {
-	service := services.NewImageService(cfg)
+	service := imageservice.NewService(cfg)
 	return &ImagesHandler{service: service}
 }
 

@@ -7,7 +7,7 @@ import (
 )
 
 func VolumeType(router *gin.RouterGroup, cfg *config.Config) {
-	h := handlers.NewVolumeTypesHandler(cfg)
+	h := handlers.NewBlockStorageHandler(cfg)
 
-	router.GET("/", h.List)
+	router.GET("/", h.ListVolumeType)
 }

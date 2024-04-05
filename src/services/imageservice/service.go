@@ -1,4 +1,4 @@
-package volume
+package imageservice
 
 import (
 	"github.com/gophercloud/gophercloud"
@@ -16,8 +16,8 @@ func NewService(cfg *config.Config) *Service {
 	return &Service{Logger: logging.NewLogger(cfg)}
 }
 
-// newBlockStorageClient creates a new authenticated block storage client.
-func (s *Service) newBlockStorageClient(authUtils *dto.AuthUtils) (*gophercloud.ServiceClient, error) {
+// newNetworkV2Client creates a new authenticated networking v2 client.
+func (s *Service) newImageServiceV2(authUtils *dto.AuthUtils) (*gophercloud.ServiceClient, error) {
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: authUtils.BaseUrl,
 		TokenID:          authUtils.Token,
@@ -25,13 +25,13 @@ func (s *Service) newBlockStorageClient(authUtils *dto.AuthUtils) (*gophercloud.
 
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
-		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to authenticate client", nil)
+		s.Logger.Error(logging.ImageServiceClient, logging.ExternalService, "Failed to authenticate client", nil)
 		return nil, err
 	}
 
-	client, err := openstack.NewBlockStorageV3(provider, gophercloud.EndpointOpts{})
+	client, err := openstack.NewImageServiceV2(provider, gophercloud.EndpointOpts{})
 	if err != nil {
-		s.Logger.Error(logging.BlockStorageClient, logging.ExternalService, "Failed to create block storage V3 client", nil)
+		s.Logger.Error(logging.ImageServiceClient, logging.ExternalService, "Failed to create image service V2 client", nil)
 		return nil, err
 	}
 

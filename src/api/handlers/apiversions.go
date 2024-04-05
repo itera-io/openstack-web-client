@@ -5,15 +5,15 @@ import (
 	_ "github.com/itera-io/openstack-web-client/api/dto"
 	_ "github.com/itera-io/openstack-web-client/api/helper"
 	"github.com/itera-io/openstack-web-client/config"
-	"github.com/itera-io/openstack-web-client/services"
+	"github.com/itera-io/openstack-web-client/services/compute"
 )
 
 type ApiVersionsHandler struct {
-	service *services.ApiVersionService
+	service *compute.Service
 }
 
 func NewApiVersionsHandler(cfg *config.Config) *ApiVersionsHandler {
-	service := services.NewApiVersionService(cfg)
+	service := compute.NewService(cfg)
 	return &ApiVersionsHandler{service: service}
 }
 
